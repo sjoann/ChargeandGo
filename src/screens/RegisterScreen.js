@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, TouchableOpacity, Button,  TextInput } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Button,  TextInput, ImageBackground } from 'react-native'
 import { Text } from 'react-native-paper'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
@@ -74,12 +74,20 @@ export default function RegisterScreen({ navigation }) {
     }
 
     return (
+
+
+      <ImageBackground style={styles.background} source={require("../components/pics/background_logo.png")}>
         <View style={styles.container}>
         <BackButton goBack={ navigation.goBack }/>
         <Text style={styles.header}>
-           Register Account
+          Let's Get Started!
         </Text>
+        <Text>
+          Create an account to Charge&Go!
+        </Text>
+
         <TextInput
+          style={styles.input}
           placeholder='Name'
           value={name.value}
           onChangeText={(text) => setName({ value: text, error: '' })}
@@ -88,6 +96,7 @@ export default function RegisterScreen({ navigation }) {
           errorText={name.error}
         />
         <TextInput
+          style={styles.input}
           placeholder='Email'
           value={email.value}
           onChangeText={(text) => setEmail({ value: text, error: '' })}
@@ -97,6 +106,7 @@ export default function RegisterScreen({ navigation }) {
           keyboardType="email-address"
         />
         <TextInput
+          style={styles.input}
           placeholder='Password'
           value={password.value}
           onChangeText={(text) => setPassword({ value: text, error: '' })}
@@ -104,12 +114,11 @@ export default function RegisterScreen({ navigation }) {
           errorText={password.error}
           secureTextEntry
         />
-        <Button
-          onPress={ onSignUpPressed }
-          style={{ marginTop: 24 }}
-          title="Sign up"    
-        >
-        </Button>
+
+        <TouchableOpacity style = {styles.submitButton} onPress={onSignUpPressed}>
+          <Text style = {styles.submitButtonText}> Sign Up </Text>
+        </TouchableOpacity>
+
         <View style={styles.row}>
           <Text>Already have an account? </Text>
           <TouchableOpacity onPress={ toLogin }>
@@ -117,15 +126,16 @@ export default function RegisterScreen({ navigation }) {
           </TouchableOpacity>
         </View>
         </View>
+      </ImageBackground>
     )
   }
   
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        alignContent: 'center',
-        alignItems: 'center',
-        justifyContent: 'center'
+      flex: 1,
+      alignContent: 'center',
+      alignItems: 'center',
+      justifyContent: 'center'
     },
     row: {
       flexDirection: 'row',
@@ -133,12 +143,35 @@ const styles = StyleSheet.create({
     },
     login: {
       fontWeight: 'bold',
-      color: '#121330'
+      color: '#414757'
     },
     header: {
-      fontSize: 21,
-      color:  '#f0d975',
-      fontWeight: 'bold',
-      paddingVertical: 12
-  }
+      fontSize: 30,
+      fontWeight: "bold"
+    }, 
+    background: {
+      flex: 1
+    },
+    input: {
+      margin: 7,
+      height: 40,
+      width: 300,
+      padding: 10,
+      borderColor: '#000000',
+      borderWidth: 1,
+      borderRadius: 10
+    },
+    submitButton: {
+      marginTop: 10,
+      backgroundColor: '#fcba03',
+      padding: 10,
+      marginBottom: 15,
+      height: 40,
+      borderRadius: 10,
+      width: 300
+    },
+    submitButtonText:{
+      color: 'black',
+      textAlign: 'center'
+    }
 })
