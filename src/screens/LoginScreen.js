@@ -31,6 +31,7 @@ export default function LoginScreen({ navigation }) {
     if (emailError || passwordError) {
       setEmail({ ...email, error: emailError })
       setPassword({ ...password, error: passwordError })
+      alert("You do not have an account yet.")
       return
     }
     setLoading(true)
@@ -40,7 +41,7 @@ export default function LoginScreen({ navigation }) {
     })
     if (response.error) {
       setError(response.error)
-      alert("Wrong email or password. Retry again.")
+      alert("Wrong email or password. Try again.")
       return
     }
     setLoading(false)

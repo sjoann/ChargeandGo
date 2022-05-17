@@ -7,6 +7,7 @@ import nameValidation from '../Firebase/nameValidation'
 import emailValidation from '../Firebase/emailValidation'
 import passwordValidation from '../Firebase/passwordValidation'
 import BackButton from '../components/BackButton';
+import { NativeScreenNavigationContainer } from 'react-native-screens';
 
 export default function RegisterScreen({ navigation }) {
     const [name, setName] = useState({ value: '', error: '' })
@@ -69,12 +70,15 @@ export default function RegisterScreen({ navigation }) {
       })
       if (response.error) {
         setError(response.error)
+        alert("You have an existing account.")
+        return
       }
       setLoading(false)
+      alert("You may proceed to log in now.")
+      navigation.navigate('LoginScreen')
     }
 
     return (
-
 
       <ImageBackground style={styles.background} source={require("../components/pics/background_logo.png")}>
         <View style={styles.container}>
