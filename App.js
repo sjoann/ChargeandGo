@@ -16,7 +16,6 @@ import HomeScreen from './src/screens/HomeScreen';
 const Stack = createStackNavigator()
 
 firebase.initializeApp(firebaseConfig)
-//test push
 export default function App() {
   return (
     <Provider>
