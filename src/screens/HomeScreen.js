@@ -29,7 +29,9 @@ export default function HomeScreen({ navigation }) {
                title="Log out"
                onPress={logoutUser}
                style={styles.logOutButton}
-           ></Button>
+          ></Button>
+
+          <Button title="To Map" onPress={() => navigation.navigate('MapScreen')}/>
         </View>
 
       </ImageBackground>
