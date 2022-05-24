@@ -12,6 +12,11 @@ import StartScreen from './src/screens/StartScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import ResetPasswordScreen from './src/screens/ResetPasswordScreen';
 import HomeScreen from './src/screens/HomeScreen';
+import MapScreen from './src/screens/MapScreen';
+import {LogBox} from "react-native";
+LogBox.ignoreLogs([
+"exported from 'deprecated-react-native-prop-types'.",
+])
 
 const Stack = createStackNavigator()
 
@@ -27,6 +32,7 @@ export default function App() {
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
           <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
+          <Stack.Screen name="MapScreen" component={MapScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

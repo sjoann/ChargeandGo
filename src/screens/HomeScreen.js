@@ -1,13 +1,14 @@
 import React from 'react'
-import { View, StyleSheet, TouchableOpacity, Button,  TextInput } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Button,  TextInput, ImageBackground, useState } from 'react-native'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { Text,  Appbar, Provider as PaperProvider } from 'react-native-paper'
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-//change
+
 export default function HomeScreen({ navigation }) {
+
   const logoutUser = () => {
     try {
       firebase.auth().signOut()
@@ -18,12 +19,22 @@ export default function HomeScreen({ navigation }) {
   }
  
     return (
+      <ImageBackground style={styles.background} source={require("../components/pics/background.png")}>
         <View style= {styles.container}>
-           <Button
+          <Text style={styles.header}>
+            Welcome Back, {firebase.auth().currentUser?.displayName}
+          </Text>
+
+          <Button
                title="Log out"
                onPress={logoutUser}
-           ></Button>
+               style={styles.logOutButton}
+          ></Button>
+
+          <Button title="To Map" onPress={() => navigation.navigate('MapScreen')}/>
         </View>
+
+      </ImageBackground>
     )
 }
 const styles = StyleSheet.create({
@@ -31,11 +42,18 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     width: '100%',
-    maxWidth: 340,
+    marginTop: 20,
     alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  background: {
+    flex: 1
+  },
+  header: {
+    fontSize: 30,
+    fontWeight: "bold",
+  },
 })
 
 

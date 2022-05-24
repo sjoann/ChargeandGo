@@ -1,3 +1,4 @@
+
 export const firebaseConfig = {
     apiKey: "AIzaSyAZiQXmQz_8HtS8pKHA2BIlOhgu7cUV1ZQ",
     authDomain: "chargeandgo-19a64.firebaseapp.com",
@@ -8,5 +9,3 @@ export const firebaseConfig = {
     appId: "1:895595702968:web:74021b9cf098bc1e4d224d",
     measurementId: "G-GQ1EJ6LEJ7"
 };
-  
-  
