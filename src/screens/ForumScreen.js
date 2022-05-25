@@ -1,26 +1,31 @@
-import React from 'react'
-import { View, StyleSheet, TouchableOpacity, Button,  TextInput } from 'react-native'
-import { Text } from 'react-native-paper'
+import React, { Component } from 'react'
+import { View, StyleSheet, ImageBackground, Text } from 'react-native'
+import BackButton from '../components/BackButton';
+import NavigationBar from '../components/NavigationBar'
 
-//to be done
-export default function ForumScreen() {
+export default function MapScreen({ navigation }) {
+
     return(
-    <View style={ styles.container }>
-        <Text style={styles.screenText}>  This will be forum ! </Text>
-    </View>
+        <View style={styles.background}>
+            <ImageBackground style={styles.background} source={require("../components/pics/background.png")}>
+                <View style={styles.container}>
+                    <BackButton goBack={ navigation.goBack }/>
+                    <Text style={{fontSize: 30}}>
+                        This is the forum!
+                    </Text>
+                </View>
+            </ImageBackground>
+            <NavigationBar navigation={navigation} />
+        </View>
     );
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#00BFA5'
     },
-    screenText:{
-        color: '#FFFFFF', 
-        fontSize: 30,
-        textAlign: 'center'
-      }
+    background: {
+        flex: 1
+    },
 })

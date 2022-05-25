@@ -13,6 +13,7 @@ import LoginScreen from './src/screens/LoginScreen';
 import ResetPasswordScreen from './src/screens/ResetPasswordScreen';
 import HomeScreen from './src/screens/HomeScreen';
 import MapScreen from './src/screens/MapScreen';
+import ForumScreen from './src/screens/ForumScreen';
 import {LogBox} from "react-native";
 LogBox.ignoreLogs([
 "exported from 'deprecated-react-native-prop-types'.",
@@ -33,6 +34,7 @@ export default function App() {
           <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="MapScreen" component={MapScreen} />
+          <Stack.Screen name="ForumScreen" component={ForumScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

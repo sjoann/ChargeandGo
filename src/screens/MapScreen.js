@@ -2,17 +2,20 @@ import React, { Component } from 'react'
 import { View, StyleSheet, TouchableOpacity, Button,  TextInput, ImageBackground, Dimensions, Image } from 'react-native'
 import BackButton from '../components/BackButton';
 import Chargers from '../components/Chargers'
-
+import NavigationBar from '../components/NavigationBar'
 
 export default function MapScreen({ navigation }) {
 
     return(
-        <ImageBackground style={styles.background} source={require("../components/pics/background.png")}>
-            <View style={styles.container}>
-                <BackButton goBack={ navigation.goBack }/>
-                <Chargers />
-            </View>
-        </ImageBackground>
+        <View style={styles.background}>
+            <ImageBackground style={styles.background} source={require("../components/pics/background.png")}>
+                <View style={styles.container}>
+                    <BackButton goBack={ navigation.goBack }/>
+                    <Chargers />
+                </View>
+            </ImageBackground>
+            <NavigationBar navigation={navigation} />
+        </View>
     );
 }
 

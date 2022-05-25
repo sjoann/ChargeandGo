@@ -1,10 +1,11 @@
 import React from 'react'
-import { View, StyleSheet, TouchableOpacity, Button,  TextInput, ImageBackground, useState } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Button,  TextInput, ImageBackground, useState, Image } from 'react-native'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { Text,  Appbar, Provider as PaperProvider } from 'react-native-paper'
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import NavigationBar from '../components/NavigationBar'
 
 
 export default function HomeScreen({ navigation }) {
@@ -19,22 +20,22 @@ export default function HomeScreen({ navigation }) {
   }
  
     return (
-      <ImageBackground style={styles.background} source={require("../components/pics/background.png")}>
-        <View style= {styles.container}>
-          <Text style={styles.header}>
-            Welcome Back, {firebase.auth().currentUser?.displayName}
-          </Text>
+      <View style={styles.background}>
+        <ImageBackground style={styles.background} source={require("../components/pics/background.png")}>
+          <View style= {styles.container}>
+            <Text style={styles.header}>
+              Welcome Back, {firebase.auth().currentUser?.displayName}
+            </Text>
 
-          <Button
-               title="Log out"
-               onPress={logoutUser}
-               style={styles.logOutButton}
-          ></Button>
-
-          <Button title="To Map" onPress={() => navigation.navigate('MapScreen')}/>
-        </View>
-
-      </ImageBackground>
+            <Button
+                title="Log out"
+                onPress={logoutUser}
+                style={styles.logOutButton}
+            ></Button>
+          </View>
+        </ImageBackground>
+        <NavigationBar navigation={navigation} />
+      </View>
     )
 }
 const styles = StyleSheet.create({
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 30,
     fontWeight: "bold",
-  },
+  }
 })
 
 
