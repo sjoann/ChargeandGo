@@ -15,7 +15,7 @@ function markers(chargers) {
             description={item.description}
             >
             <Image 
-                source={require('../components/pics/location_cropped.png')}
+                source={require('../components/pics/charger_cropped.png')}
                 style={{width: 50, height: 50}}
                 resizeMode="contain"
             />
