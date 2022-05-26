@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Button,  Text, ImageBackground, Dim
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import { getDocs, getFirestore, collection } from 'firebase/firestore/lite'
+import * as Location from 'expo-location';
 
 function markers(chargers) {
     return( 
@@ -16,7 +17,7 @@ function markers(chargers) {
             >
             <Image 
                 source={require('../components/pics/charger_cropped.png')}
-                style={{width: 50, height: 50}}
+                style={{width: 40, height: 40}}
                 resizeMode="contain"
             />
             </Marker>
@@ -32,12 +33,12 @@ class Chargers extends Component {
     constructor() {
         super();
         this.state = {
-            chargersList: []
+            chargersList: [],
         }
     }
 
 
-    componentDidMount() {
+    async componentDidMount() {
         const chargers = []
         const db = getFirestore()
         const colRef = collection(db, 'chargers')
@@ -50,17 +51,20 @@ class Chargers extends Component {
     }
 
     render() {
-        const { chargersList } = this.state;
-
+        const { chargersList, position } = this.state;
         return(
             <View>
                 <MapView 
+                provider={"google"}
                 initialRegion={{
                     latitude: 1.351927,
                     longitude: 103.867081,
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421,
+                    
                 }}
+                showsUserLocation={true}
+                showsMyLocationButton={true}
                 style={styles.map}>       
                     {markers(chargersList)}
                 </MapView>

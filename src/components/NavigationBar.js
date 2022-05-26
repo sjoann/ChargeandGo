@@ -28,7 +28,7 @@ export default function NavigationBar({ navigation }) {
 }
 const styles = StyleSheet.create({
     rectangleShape: {
-        height: 70,
+        height: 60,
         backgroundColor: '#d4d6d6',
         alignItems: 'center',
         flexDirection: 'row',
