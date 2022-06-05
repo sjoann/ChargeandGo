@@ -5,13 +5,13 @@ import Chargers from '../components/Chargers'
 import NavigationBar from '../components/NavigationBar'
 import SubmitChargers from '../components/SubmitChargers'
 
-export default function MapScreen({ navigation }) {
+export default function SubmissionScreen({ navigation }) {
 
     return(
         <View style={styles.background}>
             <ImageBackground style={styles.background} source={require("../components/pics/background.png")}>
                 <View style={styles.container}>
-                    <Chargers navigation={navigation} />
+                    <SubmitChargers navigation={navigation}/>
                 </View>
             </ImageBackground>
             <NavigationBar navigation={navigation} />
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'center'
     },
     background: {
         flex: 1

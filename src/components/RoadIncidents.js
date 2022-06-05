@@ -38,7 +38,7 @@ export default class RoadIncidents extends Component {
             return (
                 <View style={styles.box}>
                     <FlatList 
-                        data={this.state.dataSource}
+                        data={this.state.dataSource.slice(0, 10)}
                         renderItem={
                             ({item}) => <Text style={styles.item}>
                                 {item.Message}
@@ -65,5 +65,6 @@ const styles = StyleSheet.create({
         flex: 1,
         borderBottomWidth: 1,
         borderBottomColor: '#474747',
+        fontSize: 20
     }
 })

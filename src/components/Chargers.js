@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, TouchableOpacity, Button,  Text, ImageBackground, Dimensions, Image, List, FlatList } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Button,  Text, ImageBackground, Dimensions, Image, List, FlatList} from 'react-native'
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import { getDocs, getFirestore, collection } from 'firebase/firestore/lite'
-import * as Location from 'expo-location';
+import {getDistance} from 'geolib';
+
 
 function markers(chargers) {
     return( 
@@ -26,6 +27,7 @@ function markers(chargers) {
         )
     )
 }
+
 
 
 class Chargers extends Component {
@@ -51,8 +53,11 @@ class Chargers extends Component {
     }
 
     render() {
+        const { navigation } = this.props;
         const { chargersList, position } = this.state;
+        
         return(
+
             <View>
                 <MapView 
                 provider={"google"}
@@ -68,6 +73,7 @@ class Chargers extends Component {
                 style={styles.map}>       
                     {markers(chargersList)}
                 </MapView>
+                
                 <FlatList 
                     data={chargersList}
                     renderItem={
@@ -79,6 +85,11 @@ class Chargers extends Component {
                     }
                 
                 />
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SubmissionScreen')}>
+                    <Text>
+                        Found a new charger?
+                    </Text>
+                </TouchableOpacity>
             </View>
                 
                 
@@ -96,6 +107,17 @@ const styles = StyleSheet.create({
         fontSize: 18,
         height: 44,
     },
+    button: {
+        alignItems: "center",
+        backgroundColor: '#fcba03',
+        padding: 10,
+        marginBottom: 15,
+        height: 40,
+        borderRadius: 10,
+        width: 300,
+        marginTop: 20,
+        alignSelf: 'center'
+    }
 
 })
 
