@@ -1,10 +1,12 @@
 import React from 'react'
-import { View, StyleSheet, TouchableOpacity, Button,  TextInput, ImageBackground, useState } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Button,  TextInput, ImageBackground, useState, Image, Dimensions } from 'react-native'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { Text,  Appbar, Provider as PaperProvider } from 'react-native-paper'
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import NavigationBar from '../components/NavigationBar'
+import RoadIncidents from '../components/RoadIncidents';
 
 
 export default function HomeScreen({ navigation }) {
@@ -19,20 +21,28 @@ export default function HomeScreen({ navigation }) {
   }
  
     return (
-      <ImageBackground style={styles.background} source={require("../components/pics/background.png")}>
-        <View style= {styles.container}>
-          <Text style={styles.header}>
-            Welcome Back, {firebase.auth().currentUser?.displayName}
-          </Text>
-          <Button
-               title="Log out"
-               onPress={logoutUser}
-               style={styles.logOutButton}
-          ></Button>
-          <Button title="To Map" onPress={() => navigation.navigate('MapScreen')}/>
-          <Button title="To Forum" onPress={() => navigation.navigate('ForumScreen')}/>
-        </View>
-      </ImageBackground>
+      <View style={styles.background}>
+        <ImageBackground style={styles.background} source={require("../components/pics/background.png")}>
+          <View style= {styles.container}>
+            <Text style={styles.header}>
+              Welcome Back, {firebase.auth().currentUser?.displayName}
+            </Text>
+
+            <Text>
+              Traffic Updates from LTA
+            </Text>
+            <RoadIncidents />
+
+
+            <Button
+                title="Log out"
+                onPress={logoutUser}
+                style={styles.logOutButton}
+            ></Button>
+          </View>
+        </ImageBackground>
+        <NavigationBar navigation={navigation} />
+      </View>
     )
 }
 const styles = StyleSheet.create({
@@ -42,7 +52,6 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: 20,
     alignSelf: 'center',
-    justifyContent: "center",
     alignItems: "center"
   },
   background: {
@@ -51,7 +60,9 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 30,
     fontWeight: "bold",
+    marginBottom: 30
   },
+
 })
 
 

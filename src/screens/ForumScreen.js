@@ -2,6 +2,7 @@ import React, {useState, useEffect } from 'react'
 import { View, StyleSheet, TouchableOpacity, Button, ImageBackground,  TextInput, Text, FlatList, SafeAreaView} from 'react-native'
 import BackButton from '../components/BackButton';
 import { getDocs, getFirestore, collection, addDoc, orderBy, query, serverTimestamp, querySnapshot} from 'firebase/firestore/lite'
+import NavigationBar from '../components/NavigationBar'
 
 export default function ForumScreen({ navigation }) {
     const [forum, setForum] = useState(null);
@@ -63,6 +64,7 @@ export default function ForumScreen({ navigation }) {
         }
         />
       </SafeAreaView>
+      <NavigationBar navigation={navigation} />
       </ImageBackground> 
     );
 }

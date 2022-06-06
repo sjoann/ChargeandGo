@@ -7,12 +7,12 @@ import nameValidation from '../Firebase/nameValidation'
 import emailValidation from '../Firebase/emailValidation'
 import passwordValidation from '../Firebase/passwordValidation'
 import BackButton from '../components/BackButton';
-import { NativeScreenNavigationContainer } from 'react-native-screens';
 
 export default function RegisterScreen({ navigation }) {
     const [name, setName] = useState({ value: '', error: '' })
     const [email, setEmail] = useState({ value: '', error: '' })
     const [password, setPassword] = useState({ value: '', error: '' })
+    const [confirmedPassword, setConfirmedPassword] = useState({ value: '', error: '' })
     const [loading, setLoading] = useState()
     const [error, setError] = useState()
 
@@ -60,6 +60,10 @@ export default function RegisterScreen({ navigation }) {
           setEmail({ ...email, error: emailError })
           setPassword({ ...password, error: passwordError })
           return 
+      }
+      if (password.value != confirmedPassword.value) {
+        alert("Password doesn't match")
+        return
       }
       
       setLoading(true)
@@ -118,9 +122,18 @@ export default function RegisterScreen({ navigation }) {
           errorText={password.error}
           secureTextEntry
         />
+         <TextInput
+          style={styles.input}
+          placeholder='Confirm Password'
+          value={confirmedPassword.value}
+          onChangeText={(text) => setConfirmedPassword({ value: text, error: '' })}
+          error={!!confirmedPassword.error}
+          errorText={confirmedPassword.error}
+          secureTextEntry
+        />
 
         <TouchableOpacity style = {styles.submitButton} onPress={onSignUpPressed}>
-          <Text style = {styles.submitButtonText}> Sign Up </Text>
+          <Text style={styles.submitButtonText}> Sign Up </Text>
         </TouchableOpacity>
 
         <View style={styles.row}>

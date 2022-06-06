@@ -1,7 +1,6 @@
-import React, {useState, useEffect } from 'react'
-import { View, StyleSheet, TouchableOpacity, Button, ImageBackground,  TextInput, Text, FlatList, SafeAreaView} from 'react-native'
-import BackButton from '../components/BackButton';
-import { getDocs, getFirestore, collection, addDoc, orderBy, query, serverTimestamp, querySnapshot} from 'firebase/firestore/lite'
+import React, {useState } from 'react'
+import { StyleSheet, TouchableOpacity, Button, ImageBackground,  TextInput, Text, FlatList, SafeAreaView} from 'react-native'
+import { getFirestore, collection, addDoc, serverTimestamp,} from 'firebase/firestore/lite'
 
 export default function PostScreen({ navigation }) {
     const [title, setTitle] = useState(null);
@@ -58,7 +57,9 @@ export default function PostScreen({ navigation }) {
                 </Text>
             </TouchableOpacity>
          </SafeAreaView>
+        
     </ImageBackground>
+   
     )
 }
 
