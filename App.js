@@ -13,6 +13,8 @@ import LoginScreen from './src/screens/LoginScreen';
 import ResetPasswordScreen from './src/screens/ResetPasswordScreen';
 import HomeScreen from './src/screens/HomeScreen';
 import MapScreen from './src/screens/MapScreen';
+import ForumScreen from './src/screens/ForumScreen';
+import PostScreen from './src/screens/PostScreen';
 import {LogBox} from "react-native";
 LogBox.ignoreLogs([
 "exported from 'deprecated-react-native-prop-types'.",
@@ -20,7 +22,7 @@ LogBox.ignoreLogs([
 
 const Stack = createStackNavigator()
 
-firebase.initializeApp(firebaseConfig)
+ firebase.initializeApp(firebaseConfig)
 export default function App() {
   return (
     <Provider>
@@ -33,6 +35,8 @@ export default function App() {
           <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="MapScreen" component={MapScreen} />
+          <Stack.Screen name="ForumScreen" component={ForumScreen} />
+          <Stack.Screen name="PostScreen" component={PostScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

@@ -24,16 +24,14 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.header}>
             Welcome Back, {firebase.auth().currentUser?.displayName}
           </Text>
-
           <Button
                title="Log out"
                onPress={logoutUser}
                style={styles.logOutButton}
           ></Button>
-
           <Button title="To Map" onPress={() => navigation.navigate('MapScreen')}/>
+          <Button title="To Forum" onPress={() => navigation.navigate('ForumScreen')}/>
         </View>
-
       </ImageBackground>
     )
 }

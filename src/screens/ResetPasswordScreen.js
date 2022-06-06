@@ -72,10 +72,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   header: {
-      fontSize: 21,
-      color:  'black',
-      fontWeight: 'bold',
-      paddingVertical: 12
+    fontSize: 21,
+    color:  'black',
+    fontWeight: 'bold',
+    paddingVertical: 12
   },
   background: {
     flex: 1
