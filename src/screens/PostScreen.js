@@ -1,20 +1,26 @@
 import React, {useState } from 'react'
-import { StyleSheet, TouchableOpacity, Button, ImageBackground,  TextInput, Text, FlatList, SafeAreaView} from 'react-native'
+import { StyleSheet, TouchableOpacity, Button, ImageBackground,  TextInput, Text, SafeAreaView, Image} from 'react-native'
 import { getFirestore, collection, addDoc, serverTimestamp,} from 'firebase/firestore/lite'
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import { getStatusBarHeight } from 'react-native-status-bar-height'
 
 export default function PostScreen({ navigation }) {
     const [title, setTitle] = useState(null);
     const [text, setText] = useState(null);
     const [postTime, setPostTime] = useState(null);
+    const [like, setLike] = useState(0);
+    const [name, setName] = useState(null);
     const [forum, setForum] = useState(null);
    
     const submitPost = async () => {
         const db = getFirestore()
         const colRef = collection(db, 'posts')
-        const docRef = await addDoc(collection(db, 'posts'), {
+        const docRef = await addDoc(colRef, {
             title: title,
             text: text,
             postTime: serverTimestamp(),
+            name: firebase.auth().currentUser?.displayName,
         })
         .then(() => {
           alert('Your post has been published!')
@@ -31,6 +37,14 @@ export default function PostScreen({ navigation }) {
     return(
     <ImageBackground style={styles.background} source={require("../components/pics/background.png")}>
         <SafeAreaView style={styles.container}>
+            <TouchableOpacity 
+             style={styles.back}
+             onPress={() => navigation.push('ForumScreen')}>
+            <Image
+            style={styles.image}
+            source={require('../components/pics/backarrow.png')}
+            />
+            </TouchableOpacity>
             <Text style={styles.header}>
                 Create a post
             </Text>
@@ -57,7 +71,6 @@ export default function PostScreen({ navigation }) {
                 </Text>
             </TouchableOpacity>
          </SafeAreaView>
-        
     </ImageBackground>
    
     )
@@ -72,6 +85,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         alignContent: 'center',
+    },
+    back: {
+        position: 'absolute',
+        top: 10 + getStatusBarHeight(),
+        left: 4,
+      },
+    image: {
+        width: 24,
+        height: 24,
     },
     header: {
         fontSize: 30,

@@ -16,6 +16,7 @@ import MapScreen from './src/screens/MapScreen';
 import ForumScreen from './src/screens/ForumScreen';
 import PostScreen from './src/screens/PostScreen';
 import SubmissionScreen from './src/screens/SubmissionScreen'
+import CommentScreen from './src/screens/CommentScreen';
 import {LogBox} from "react-native";
 LogBox.ignoreLogs([
 "exported from 'deprecated-react-native-prop-types'.",
@@ -39,6 +40,7 @@ export default function App() {
           <Stack.Screen name="ForumScreen" component={ForumScreen} />
           <Stack.Screen name="PostScreen" component={PostScreen} />
           <Stack.Screen name="SubmissionScreen" component={SubmissionScreen} />
+          <Stack.Screen name="CommentScreen" component={CommentScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
