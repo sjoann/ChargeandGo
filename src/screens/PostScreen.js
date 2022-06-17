@@ -9,11 +9,14 @@ export default function PostScreen({ navigation }) {
     const [title, setTitle] = useState(null);
     const [text, setText] = useState(null);
     const [postTime, setPostTime] = useState(null);
-    const [like, setLike] = useState(0);
     const [name, setName] = useState(null);
     const [forum, setForum] = useState(null);
    
     const submitPost = async () => {
+        if (title == null || text == null) {
+            alert('Field cannot be empty')
+            return 
+        }
         const db = getFirestore()
         const colRef = collection(db, 'posts')
         const docRef = await addDoc(colRef, {
