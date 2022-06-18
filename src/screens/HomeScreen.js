@@ -8,7 +8,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import NavigationBar from '../components/NavigationBar'
 import RoadIncidents from '../components/RoadIncidents';
 
-
 export default function HomeScreen({ navigation }) {
 
   const logoutUser = () => {

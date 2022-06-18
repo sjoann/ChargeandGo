@@ -50,7 +50,6 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <ImageBackground style={styles.background} source={require("../components/pics/background_logo.png")}>
-
       <View style= {styles.container}>
         <BackButton goBack={ navigation.goBack }/>
         <Text style={styles.header}>

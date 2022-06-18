@@ -1,8 +1,8 @@
 import React, {useState, useEffect } from 'react'
-import { View, StyleSheet, TouchableOpacity, Button, ImageBackground,  TextInput, Text, FlatList, SafeAreaView} from 'react-native'
-import BackButton from '../components/BackButton';
-import { getDocs, getFirestore, collection, addDoc, orderBy, query, serverTimestamp, querySnapshot} from 'firebase/firestore/lite'
+import { View, StyleSheet, TouchableOpacity, Button, ImageBackground, Text, FlatList, SafeAreaView} from 'react-native'
+import { getDocs, getFirestore, collection, orderBy, query,  } from 'firebase/firestore/lite'
 import NavigationBar from '../components/NavigationBar'
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export default function ForumScreen({ navigation }) {
     const [forum, setForum] = useState(null);
@@ -10,6 +10,17 @@ export default function ForumScreen({ navigation }) {
     useEffect(() => {
         getForum();
     }, []);
+/*
+    const upvote = (id, likeCount) => {
+        setLike(true)
+        const db = getFirestore()
+        const docRef = doc(db, 'posts', id)
+        // increase likes by 1
+        updateDoc(docRef, {
+            like: likeCount + 1
+        })
+        setLike(false)
+    }*/
     
     const getForum = async () => {
     try {
@@ -22,7 +33,8 @@ export default function ForumScreen({ navigation }) {
               const {
                   title,
                   text,
-                  postTime
+                  postTime,
+                  name,
                 } = doc.data();
               list.push({...doc.data(), id: doc.id })
           })
@@ -58,8 +70,16 @@ export default function ForumScreen({ navigation }) {
                     {item.text}
                 </Text>
                 <Text style={styles.date}>
-                    Posted on {new Date(item.postTime.toDate()).toDateString()}
+                    Posted by {item.name} on {new Date(item.postTime.toDate()).toDateString().substring(4, 15)}
                 </Text>
+                <View style={styles.details}>
+                    <TouchableOpacity
+                    onPress={() => navigation.navigate('CommentScreen', 
+                      {paramKey: item.id, paramTitle: item.title, paramText: item.text, paramName: item.name, paramDate: new Date(item.postTime.toDate()).toDateString().substring(4, 15)})}
+                    >
+                        <FontAwesome name='comments' size={17} />
+                    </TouchableOpacity>
+                </View>
             </View>
         }
         />
@@ -113,6 +133,8 @@ const styles = StyleSheet.create({
     list: {
         flex: 1,
         padding: 10,
+    },
+    details: {
+        flexDirection: 'row',
     }
-
 })
