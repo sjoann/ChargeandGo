@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, TouchableOpacity, Button,  Text, ImageBackground, Dimensions, Image, List, FlatList} from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Button,  Text, ImageBackground, Dimensions, Image, List, FlatList, ActivityIndicator } from 'react-native'
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
-import { getDocs, getFirestore, collection } from 'firebase/firestore/lite'
+import { getDocs, getFirestore, collection} from 'firebase/firestore/lite'
 import {getDistance} from 'geolib';
 import * as Location from 'expo-location';
 import openMap from 'react-native-open-maps';
@@ -14,8 +14,9 @@ function markers(chargers) {
                 latitude: item.location.latitude,
                 longitude: item.location.longitude,
             }}
+            key= {item.key}
             title={item.name}
-            description={item.description}
+            description={item.speed + "kW, " + item.type + ", " + item.cost + "¢/kWh"}
             >
             <Image 
                 source={require('../components/pics/charger_cropped.png')}
@@ -48,7 +49,7 @@ class Chargers extends Component {
             const colRef = collection(db, 'chargers')
             getDocs(colRef).then((snapshot) => {
                 snapshot.docs.forEach((doc) => {
-                    chargers.push({...doc.data(), id: doc.id })
+                    chargers.push({...doc.data(), key: doc.id })
                 })
                 this.setState({chargersList: chargers})
             })
@@ -100,6 +101,7 @@ class Chargers extends Component {
                 style={styles.map}>       
                     {markers(chargersList)}
                 </MapView>
+                { (!this.state.loaded) && (<ActivityIndicator />)}
                 { (this.state.loaded) && (
                 <FlatList 
                     data={chargers}
@@ -126,7 +128,7 @@ class Chargers extends Component {
                                 }
                                 </Text>
                                 <Text>
-                                    {item.obj.description}
+                                    {item.obj.speed + "kW, " + item.obj.type + ", " + item.obj.cost + "¢/kWh"}
                                 </Text>
                         
                             </View>
