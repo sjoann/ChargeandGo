@@ -29,7 +29,7 @@ export default function App() {
   return (
     <Provider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="HomeScreen"
+        <Stack.Navigator initialRouteName="StartScreen"
         screenOptions={{headerShown: false}}> 
           <Stack.Screen name="StartScreen" component={StartScreen} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
