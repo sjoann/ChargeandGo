@@ -75,6 +75,9 @@ class SubmitChargers extends Component {
         const { chargersList, position } = this.state;
         return(
             <View style={styles.body}>
+                <Text style={styles.header}>
+                    Submit New Charger
+                </Text>
                 <TextInput
                     style = {styles.input}
                     placeholder='Charger Brand (eg: Tesla, SP Power etc)'
@@ -101,11 +104,13 @@ class SubmitChargers extends Component {
                     placeholder='Charging Cost ¢/kWh (eg: 32¢/kWh)'
                     label="Charger Type"
                     returnKeyType="done"
+                    keyboardType='number-pad'
                     onChangeText={(text) => this.state.chargerCost=text}
                 />
                 <TextInput
                     style = {styles.input}
                     placeholder='Charging Speed kW (eg: 22kW)'
+                    keyboardType='number-pad'
                     label="Charger Speed"
                     returnKeyType="done"
                     onChangeText={(text) => this.state.chargerSpeed=text}
@@ -154,6 +159,9 @@ const styles = StyleSheet.create({
     map: {
         width: Dimensions.get('window').width,
         height: 300,
+    },
+    header: {
+        fontSize: 20
     },
     input: {
         margin: 7,
