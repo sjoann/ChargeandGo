@@ -38,7 +38,9 @@ class Chargers extends Component {
         this.state = {
             chargersList: [],
             curPosition: {},
-            loaded: false
+            loaded: false,
+            sortType: 1,
+            refresh: false
         }
     }
 
@@ -74,14 +76,17 @@ class Chargers extends Component {
         const chargers = []
         if (this.state.loaded) {
             for (let i = 0; i < this.state.chargersList.length; i++) {
-                const elem = {obj: this.state.chargersList[i], distance:
+                const object = this.state.chargersList[i]
+                const elem = {obj: object, distance:
                     getDistance(
                     {latitude: this.state.curPosition.latitude, longitude: this.state.curPosition.longitude},
-                    {latitude: this.state.chargersList[i].location.latitude, longitude: this.state.chargersList[i].location.longitude}
-                    )};
+                    {latitude: object.location.latitude, longitude:object.location.longitude}
+                    ),
+                    speed: object.speed,
+                    cost: object.cost
+                };
                 chargers.push(elem);
             }
-            chargers.sort((a,b)=>a.distance-b.distance);
         }
         
         return(
@@ -101,10 +106,34 @@ class Chargers extends Component {
                 style={styles.map}>       
                     {markers(chargersList)}
                 </MapView>
+                <View style={styles.row}>
+                    <TouchableOpacity style={styles.rowButtons} onPress={() => this.setState({sortType: 1})}>
+                        <Text>
+                            Sort by distance
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.rowButtons} onPress={() => this.setState({sortType: 2})}>
+                        <Text>
+                            Sort by speed
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.rowButtons} onPress={() => this.setState({sortType: 3})}>
+                        <Text>
+                            Sort by cost
+                        </Text>
+                    </TouchableOpacity>
+
+                </View>
+
                 { (!this.state.loaded) && (<ActivityIndicator />)}
                 { (this.state.loaded) && (
                 <FlatList 
-                    data={chargers}
+                    data={       
+                        ((this.state.sortType===1) && chargers.sort((a,b)=>a.distance-b.distance)) ||
+                        ((this.state.sortType===2) && chargers.sort((a,b)=>b.speed-a.speed)) ||
+                        ((this.state.sortType===3) && chargers.sort((a,b)=>a.cost-b.cost))
+                    }
+                    extraData={this.state.sortType}
                     ItemSeparatorComponent={() => {
                         return (
                           <View
@@ -147,6 +176,7 @@ class Chargers extends Component {
                     }
                 
                 />
+                
                 )
                 }
                 <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SubmissionScreen')}>
@@ -173,11 +203,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: '#fcba03',
         padding: 10,
-        marginBottom: 15,
+        marginBottom: 5,
         height: 40,
         borderRadius: 10,
         width: 300,
-        marginTop: 20,
+        marginTop: 5,
         alignSelf: 'center'
     },
     body: {
@@ -191,6 +221,18 @@ const styles = StyleSheet.create({
         margin: 10,
         flexDirection: 'row',
         alignItems: 'center'
+    },
+    row: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    rowButtons: {
+        flex: 1,
+        alignItems: 'center',
+        backgroundColor: "orange",
+        borderColor: 'black',
+        borderWidth: 1
     }
 
 })
