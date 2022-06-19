@@ -28,12 +28,6 @@ export default function LoginScreen({ navigation }) {
   const onLoginPressed = async () => {
     const emailError = emailValidation(email.value)
     const passwordError = passwordValidation(password.value)
-    if (emailError || passwordError) {
-      setEmail({ ...email, error: emailError })
-      setPassword({ ...password, error: passwordError })
-      alert("You do not have an account yet.")
-      return
-    }
     setLoading(true)
     const response = await loginUser({
       email: email.value,
