@@ -18,6 +18,7 @@ export default function HomeScreen({ navigation }) {
       console.log(error);
     }
   }
+  
  
     return (
       <View style={styles.background}>
