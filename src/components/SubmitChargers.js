@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { View, StyleSheet, TextInput, TouchableOpacity, Button,  Text, ImageBackground, Dimensions, Image, List, FlatList } from 'react-native'
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
-import { getDocs, getFirestore, collection, addDoc } from 'firebase/firestore/lite'
+import { getDocs, getFirestore, collection, addDoc, serverTimestamp, } from 'firebase/firestore/lite';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 
 function markers(chargers) {
     return( 
@@ -11,8 +13,9 @@ function markers(chargers) {
                 latitude: item.location.latitude,
                 longitude: item.location.longitude,
             }}
+            key= {item.key}
             title={item.name}
-            description={item.description}
+            description={item.speed + "kW, " + item.type + ", " + item.cost + "¢/kWh"}
             >
             <Image 
                 source={require('../components/pics/charger_cropped.png')}
@@ -35,12 +38,11 @@ class SubmitChargers extends Component {
             chargersList: [],
             selectedLatitude: 1.351927,
             selectedLongitude: 103.867081,
-            name: '',
-            description: '',
-            chargerLocation: '',
-            chargerType: '',
-            chargerCost: '',
-            chargerSpeed: ''
+            name: null,
+            chargerLocation: null,
+            chargerType: null,
+            chargerCost: null,
+            chargerSpeed: null
         }
     }
 
@@ -51,23 +53,46 @@ class SubmitChargers extends Component {
         const colRef = collection(db, 'chargers')
         getDocs(colRef).then((snapshot) => {
             snapshot.docs.forEach((doc) => {
-                chargers.push({...doc.data(), id: doc.id })
+                chargers.push({key: doc.id, ...doc.data()})
             })
             this.setState({chargersList: chargers})
         })
     }
 
-    async submitCharger() {
+    async submitCharger(navigation) {
+        if (this.state.name == null || this.state.chargerLocation == null ||
+            this.state.chargerType == null || this.state.chargerSpeed == null || this.state.chargerCost == null) {
+            alert('Field cannot be empty')
+            return 
+        }
         const db = getFirestore()
         const colRef = collection(db, 'chargers')
-        addDoc(colRef, {
+        await addDoc(colRef, {
             name: this.state.name + " " + this.state.chargerLocation,
-            description: this.state.chargerSpeed + ", " + this.state.chargerType + ", " + this.state.chargerCost,
+            speed: this.state.chargerSpeed,
+            cost: this.state.chargerCost,
+            type: this.state.chargerType,
             location: {
                 latitude: this.state.selectedLatitude,
                 longitude: this.state.selectedLongitude
             }
-        })
+        }).catch((error) =>
+        console.log(error)
+        );
+        const postRef = collection(db, 'posts')
+        await addDoc(postRef, {
+            title: this.state.name + " " + this.state.chargerLocation,
+            text: this.state.name + " " + this.state.chargerLocation + " has been set up!",
+            postTime: serverTimestamp(),
+            name: firebase.auth().currentUser?.displayName,
+        }).then(()=>{
+            alert("You have submitted a new charger.");
+            navigation.push('MapScreen');
+        }
+        ).catch((error) =>
+            console.log(error)
+        );
+
     }
 
     render() {
@@ -75,6 +100,9 @@ class SubmitChargers extends Component {
         const { chargersList, position } = this.state;
         return(
             <View style={styles.body}>
+                <Text style={styles.header}>
+                    Submit New Charger
+                </Text>
                 <TextInput
                     style = {styles.input}
                     placeholder='Charger Brand (eg: Tesla, SP Power etc)'
@@ -101,11 +129,13 @@ class SubmitChargers extends Component {
                     placeholder='Charging Cost ¢/kWh (eg: 32¢/kWh)'
                     label="Charger Type"
                     returnKeyType="done"
+                    keyboardType='number-pad'
                     onChangeText={(text) => this.state.chargerCost=text}
                 />
                 <TextInput
                     style = {styles.input}
                     placeholder='Charging Speed kW (eg: 22kW)'
+                    keyboardType='number-pad'
                     label="Charger Speed"
                     returnKeyType="done"
                     onChangeText={(text) => this.state.chargerSpeed=text}
@@ -137,9 +167,7 @@ class SubmitChargers extends Component {
                     />
                 </MapView>
                 <TouchableOpacity style = {styles.submitButton} onPress={()=>{
-                    this.submitCharger();
-                    alert("You have submitted a new charger.");
-                    navigation.navigate('MapScreen');
+                    this.submitCharger(navigation);
                     }}>
                     <Text style = {styles.submitButtonText}> Submit </Text>
                 </TouchableOpacity>
@@ -154,6 +182,9 @@ const styles = StyleSheet.create({
     map: {
         width: Dimensions.get('window').width,
         height: 300,
+    },
+    header: {
+        fontSize: 20
     },
     input: {
         margin: 7,

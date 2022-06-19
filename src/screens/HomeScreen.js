@@ -33,12 +33,11 @@ export default function HomeScreen({ navigation }) {
             </Text>
             <RoadIncidents />
 
-
-            <Button
-                title="Log out"
-                onPress={logoutUser}
-                style={styles.logOutButton}
-            ></Button>
+            <TouchableOpacity style={styles.logOutButton} onPress={logoutUser}>
+              <Text>
+                Log Out
+              </Text>
+            </TouchableOpacity>
           </View>
         </ImageBackground>
         <NavigationBar navigation={navigation} />
@@ -62,6 +61,16 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 30
   },
+  logOutButton: {
+    alignItems: "center",
+    backgroundColor: '#fcba03',
+    padding: 10,
+    marginBottom: 15,
+    height: 40,
+    borderRadius: 10,
+    width: 100,
+    alignSelf: 'center'
+  }
 
 })
 

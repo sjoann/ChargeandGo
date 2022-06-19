@@ -58,8 +58,7 @@ export default function ForumScreen({ navigation }) {
                 </Text>
             </TouchableOpacity>
         </View>
-        <FlatList 
-        style={styles.list}
+        <FlatList style={styles.list}
         data={forum}
         renderItem={
             ({item}) => 

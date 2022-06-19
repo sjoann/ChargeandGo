@@ -1,5 +1,5 @@
 import React, {useState } from 'react'
-import { StyleSheet, TouchableOpacity, Button, ImageBackground,  TextInput, Text, SafeAreaView, Image} from 'react-native'
+import { StyleSheet, TouchableOpacity, Button, ImageBackground,  TextInput, Text, SafeAreaView, Image, FlatList, Dimensions} from 'react-native'
 import { getFirestore, collection, addDoc, serverTimestamp,} from 'firebase/firestore/lite'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
@@ -110,7 +110,9 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderColor: '#fff',
         height: 60,
-        width: 400
+        width: Dimensions.get('window').width - 30,
+        padding: 10
+        
     },
     textBox: {
         fontSize: 25,
@@ -119,7 +121,8 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderColor: '#fff',
         height: 90,
-        width: 400
+        width: Dimensions.get('window').width - 30,
+        padding: 10
     },
     button: {
         width: 100,
@@ -131,6 +134,6 @@ const styles = StyleSheet.create({
     buttonText: {
         color: 'black',
         textAlign: 'center',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
 })
