@@ -7,6 +7,7 @@ import nameValidation from '../Firebase/nameValidation'
 import emailValidation from '../Firebase/emailValidation'
 import passwordValidation from '../Firebase/passwordValidation'
 import BackButton from '../components/BackButton';
+import { getDocs, getFirestore, collection, addDoc, query, where} from 'firebase/firestore/lite'
 
 export default function RegisterScreen({ navigation }) {
     const [name, setName] = useState({ value: '', error: '' })
@@ -35,6 +36,33 @@ export default function RegisterScreen({ navigation }) {
           }
         }
       }
+
+    const usernameTaken = async () => {
+      try {
+          const list = [];
+          const db = getFirestore()
+          const colRef = collection(db, 'users')
+          const q = query(colRef, where("username", "==", name.value));
+          const querySnapshot = await getDocs(q);   
+          querySnapshot.forEach((doc) => {
+                  const {
+                      username
+                    } = doc.data();
+                  list.push({...doc.data(), id: doc.id })
+              })
+          if (list.length != 0) {
+            return true
+          } else {
+            //username not taken, now we will then add the name to firestore
+            const docRef = addDoc(colRef, {
+              username: name.value
+            })
+            return false
+          }
+        } catch (error) {
+          console.log(error);
+        }
+    }
       
     const onSignUpPressed = async () => {
       const nameError = nameValidation(name.value)
@@ -65,7 +93,10 @@ export default function RegisterScreen({ navigation }) {
         alert("Password doesn't match")
         return
       }
-      
+      if (usernameTaken()) {
+        alert("Username taken. Choose another username.")
+        return
+      }
       setLoading(true)
       const response = await signUpUser({
         name: name.value,

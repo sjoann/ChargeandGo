@@ -25,7 +25,7 @@ export default function CommentScreen({ route, navigation }) {
           const db = getFirestore()
           const colRef = collection(db, 'comments')
           const q = query(colRef, where("identifier", "==", route.params.paramKey));
-          const querySnapshot = await getDocs(q);        
+          const querySnapshot = await getDocs(q);   
           querySnapshot.forEach((doc) => {
                   const {
                       text,
@@ -36,6 +36,9 @@ export default function CommentScreen({ route, navigation }) {
               })
           setComments(list);
           console.log('comments: ', comments);
+          if (list.length == 0) {
+            console.log("empty")
+        }
         } catch (error) {
           console.log(error);
         }

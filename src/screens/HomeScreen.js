@@ -3,8 +3,6 @@ import { View, StyleSheet, TouchableOpacity, Button,  TextInput, ImageBackground
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { Text,  Appbar, Provider as PaperProvider } from 'react-native-paper'
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import NavigationBar from '../components/NavigationBar'
 import RoadIncidents from '../components/RoadIncidents';
 
@@ -18,8 +16,7 @@ export default function HomeScreen({ navigation }) {
       console.log(error);
     }
   }
-  
- 
+
     return (
       <View style={styles.background}>
         <ImageBackground style={styles.background} source={require("../components/pics/background.png")}>
@@ -32,6 +29,7 @@ export default function HomeScreen({ navigation }) {
               Traffic Updates from LTA
             </Text>
             <RoadIncidents />
+
 
             <TouchableOpacity style={styles.logOutButton} onPress={logoutUser}>
               <Text>

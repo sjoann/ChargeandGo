@@ -10,17 +10,6 @@ export default function ForumScreen({ navigation }) {
     useEffect(() => {
         getForum();
     }, []);
-/*
-    const upvote = (id, likeCount) => {
-        setLike(true)
-        const db = getFirestore()
-        const docRef = doc(db, 'posts', id)
-        // increase likes by 1
-        updateDoc(docRef, {
-            like: likeCount + 1
-        })
-        setLike(false)
-    }*/
     
     const getForum = async () => {
     try {
