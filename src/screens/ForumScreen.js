@@ -28,7 +28,6 @@ export default function ForumScreen({ navigation }) {
               list.push({...doc.data(), id: doc.id })
           })
       setForum(list);
-      console.log('forum: ', forum);
     } catch (error) {
       console.log(error);
     }
@@ -37,15 +36,7 @@ export default function ForumScreen({ navigation }) {
     return(
         <ImageBackground style={styles.background} source={require("../components/pics/background.png")}>
         <SafeAreaView style={{flex:1}}>
-            <View style={styles.container}>
-            <TouchableOpacity
-             style={styles.button}
-             onPress= {() => navigation.navigate('PostScreen')}>
-                 <Text
-                 style={styles.buttonText}>
-                     Create a new post
-                </Text>
-            </TouchableOpacity>
+        <View style={styles.container}>
         </View>
         <FlatList style={styles.list}
         data={forum}
@@ -72,6 +63,14 @@ export default function ForumScreen({ navigation }) {
             </View>
         }
         />
+        <TouchableOpacity
+             style={styles.button}
+             onPress= {() => navigation.navigate('PostScreen')}>
+                 <Text
+                 style={styles.buttonText}>
+                     Create a new post
+                </Text>
+        </TouchableOpacity>
       </SafeAreaView>
       <NavigationBar navigation={navigation} />
       </ImageBackground> 
@@ -87,17 +86,22 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         alignContent: 'center',
+        marginTop: 20
     },
     button: {
-        backgroundColor: "#ebd234",
-        padding: 5,
-        marginTop: 5,
-        borderRadius: 20
+        alignItems: "center",
+        backgroundColor: '#fcba03',
+        padding: 10,
+        marginBottom: 10,
+        height: 40,
+        borderRadius: 10,
+        width: 300,
+        marginTop: 10,
+        alignSelf: 'center',
     },
     buttonText: {
         color: 'black',
         textAlign: 'center',
-        fontWeight: 'bold',
         fontSize: 16
     },
     item: {
