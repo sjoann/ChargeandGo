@@ -37,7 +37,18 @@ export default class RoadIncidents extends Component {
         } else {
             return (
                 <View style={styles.box}>
-                    <FlatList 
+                    <FlatList
+                        ItemSeparatorComponent={() => {
+                            return (
+                                <View
+                                style={{
+                                    height: 1,
+                                    width: "100%",
+                                    backgroundColor: "black",
+                                }}
+                                />
+                            );
+                            }}
                         data={this.state.dataSource.slice(0, 10)}
                         renderItem={
                             ({item}) => <Text style={styles.item}>
@@ -59,7 +70,10 @@ const styles = StyleSheet.create({
         borderColor: "black",
         width: Dimensions.get('window').width - 30,
         height: 300,
-        marginBottom: 30
+        marginBottom: 30,
+        borderRadius: 10,
+        paddingTop: 5,
+        paddingBottom: 5
       },
     item: {
         flex: 1,

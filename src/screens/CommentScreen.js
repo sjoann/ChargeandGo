@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { TouchableOpacity, StyleSheet, View, TextInput, Text, ImageBackground, SafeAreaView, FlatList, Button } from 'react-native'
+import { TouchableOpacity, StyleSheet, View, TextInput, Text, ImageBackground, SafeAreaView, FlatList, Button, Image, KeyboardAvoidingView } from 'react-native'
 import { getDocs, getFirestore, collection, addDoc,serverTimestamp, query, where, doc, getDoc} from 'firebase/firestore/lite'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
@@ -71,7 +71,9 @@ export default function CommentScreen({ route, navigation }) {
 
     return(
         <ImageBackground style={styles.background} source={require("../components/pics/background.png")}>
-             <SafeAreaView style={{flex:1}}> 
+             <SafeAreaView style={{flex:1}}>
+                <BackButton goBack={ navigation.goBack }/>
+
                 <View style={styles.post}>
                     <Text style={styles.title}>
                         {route.params.paramTitle}
@@ -83,18 +85,6 @@ export default function CommentScreen({ route, navigation }) {
                         Posted by {route.params.paramName} on {route.params.paramDate}
                     </Text>
                 </View>
-                <BackButton goBack={ navigation.goBack }/>
-                <TextInput style={{marginLeft: 13}}
-                    placeholder="Add a comment..."
-                    value={text}
-                    onChangeText={text => setText(text)}
-                />
-                <TouchableOpacity
-                    onPress= {submitComment}>
-                    <Text style={{marginLeft: 13, fontSize: 12}}>
-                        Enter
-                    </Text>
-                </TouchableOpacity>
                  <FlatList 
                  style={styles.list}
                  data={comments}
@@ -111,6 +101,24 @@ export default function CommentScreen({ route, navigation }) {
                     </View>
                     }
                 />
+                <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+                    <View style={styles.bottom}>
+                        <TextInput style={styles.input}
+                            placeholder="Add a comment..."
+                            value={text}
+                            onChangeText={text => setText(text)}
+                        />
+                        <TouchableOpacity
+                            style={styles.submitButton}
+                            onPress= {submitComment}>
+                                <Image 
+                                style={{width:40, height: 40}}
+                                source={require("../components/pics/submit.png")}/>
+                        </TouchableOpacity>
+                    </View>
+
+                </KeyboardAvoidingView>
+
             </SafeAreaView>
         </ImageBackground>
     );
@@ -125,15 +133,13 @@ const styles = StyleSheet.create({
         borderBottomColor: '#000',
         borderBottomWidth: 1,
         padding: 15,
-        marginTop: 10,
-        marginBottom: 10,
-        marginLeft: 13,
+        marginLeft: 20,
         marginRight: 13
     },
     item: {
         borderWidth: 1,
         borderRadius: 10,
-        borderColor: '#fff',
+        borderColor: '#525252',
         padding: 10,
         marginBottom: 10
     },
@@ -149,8 +155,23 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     title: {
-        fontSize: 20,
+        fontSize: 23,
         fontWeight: 'bold',
         textTransform: 'capitalize'
     },
+    input: {
+        backgroundColor: "#ebebeb",
+        borderRadius: 10,
+        height: 40,
+        marginLeft: 10,
+        padding: 10,
+        flex: 6
+    },
+    bottom: {
+        flexDirection: 'row'
+    },
+    submitButton: {
+        flex: 1,
+        marginLeft:5
+    }
 })
