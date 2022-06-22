@@ -99,37 +99,41 @@ const styles = StyleSheet.create({
         height: 24,
     },
     header: {
-        fontSize: 30,
+        fontSize: 25,
         fontWeight: 'bold',
         marginBottom: 30
     },
     titleBox: {
-        fontSize: 25,
-        marginBottom: 30,
-        borderWidth: 2,
+        fontSize: 20,
+        marginBottom: 20,
+        borderWidth: 1,
         borderRadius: 5,
-        borderColor: '#fff',
-        height: 60,
+        borderColor: '#525252',
+        height: 40,
         width: Dimensions.get('window').width - 30,
         padding: 10
         
     },
     textBox: {
-        fontSize: 25,
+        fontSize: 20,
         marginBottom: 50,
-        borderWidth: 2,
+        borderWidth: 1,
         borderRadius: 5,
-        borderColor: '#fff',
-        height: 90,
+        borderColor: '#525252',
+        height: 190,
         width: Dimensions.get('window').width - 30,
         padding: 10
     },
     button: {
-        width: 100,
-        backgroundColor: "#ebd234",
-        padding: 5,
-        marginTop: 5,
-        borderRadius: 20
+        alignItems: "center",
+        backgroundColor: '#fcba03',
+        padding: 10,
+        marginBottom: 10,
+        height: 40,
+        borderRadius: 10,
+        width: 300,
+        marginTop: 10,
+        alignSelf: 'center',
     },
     buttonText: {
         color: 'black',
