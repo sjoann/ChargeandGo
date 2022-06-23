@@ -43,21 +43,24 @@ export default function ForumScreen({ navigation }) {
         renderItem={
             ({item}) => 
             <View style={styles.item}>
-                <Text style={styles.title}>
-                    {item.title}
-                </Text>
-                <Text style={styles.text}>
-                    {item.text}
-                </Text>
-                <Text style={styles.date}>
-                    Posted by {item.name} on {new Date(item.postTime.toDate()).toDateString().substring(4, 15)}
-                </Text>
+                <View style={{flex: 1}}>
+                    <Text style={styles.title}>
+                        {item.title}
+                    </Text>
+                    <Text style={styles.text}>
+                        {item.text}
+                    </Text>
+                    <Text style={styles.date}>
+                        Posted by {item.name} on {new Date(item.postTime.toDate()).toDateString().substring(4, 15)}
+                    </Text>
+                </View>
                 <View style={styles.details}>
                     <TouchableOpacity
+                    style={styles.commentButton}
                     onPress={() => navigation.navigate('CommentScreen', 
                       {paramKey: item.id, paramTitle: item.title, paramText: item.text, paramName: item.name, paramDate: new Date(item.postTime.toDate()).toDateString().substring(4, 15)})}
                     >
-                        <FontAwesome name='comments' size={17} />
+                        <FontAwesome name='comments' size={23} />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -107,9 +110,11 @@ const styles = StyleSheet.create({
     item: {
         borderWidth: 1, 
         borderRadius: 19,
-        borderColor: '#fff',
-        padding: 15,
-        marginBottom: 10
+        borderColor: '#525252',
+        padding: 13,
+        marginBottom: 10,
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     title: {
         fontSize: 20,
