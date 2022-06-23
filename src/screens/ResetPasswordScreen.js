@@ -42,7 +42,7 @@ export default function ResetPasswordScreen({ navigation }) {
       <View style={styles.container}>
         <BackButton goBack={ navigation.goBack }/>
         <Text style={styles.header}>
-            Update Password
+            Restore Password
         </Text>
         <TextInput
           style={styles.input}

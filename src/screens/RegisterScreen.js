@@ -84,7 +84,7 @@ export default function RegisterScreen({ navigation }) {
         return
       }
       if (passwordError) {
-          alert("Password must be at least 5 characters long")
+          alert("Password must be at least 6 characters long")
           setName({ ...name, error: nameError })
           setEmail({ ...email, error: emailError })
           setPassword({ ...password, error: passwordError })
@@ -107,6 +107,7 @@ export default function RegisterScreen({ navigation }) {
       if (response.error) {
         setError(response.error)
         alert("You have an existing account.")
+        console.log(response.error)
         return
       }
       setLoading(false)

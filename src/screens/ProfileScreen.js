@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet, TouchableOpacity, ImageBackground,  } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, ImageBackground, Image } from 'react-native'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { Text,  Appbar, Provider as PaperProvider } from 'react-native-paper'
@@ -24,9 +24,9 @@ export default function ProfileScreen({ navigation }) {
               Manage your account
             </Text>
             <TouchableOpacity style={styles.button} onPress={logoutUser}>
-              <Text>
-                Log Out
-              </Text>
+                <Text>
+                    Log Out
+                </Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('EditProfileScreen')}>
                 <Text>
@@ -47,6 +47,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     alignSelf: 'center',
     alignItems: "center"
+  },
+  image: {
+    width: 30,
+    height: 30
   },
   background: {
     flex: 1
