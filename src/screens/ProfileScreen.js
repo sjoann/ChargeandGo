@@ -1,26 +1,38 @@
 import React from 'react'
-import { View, StyleSheet, TouchableOpacity, Button,  TextInput, ImageBackground, useState, Image, Dimensions } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, ImageBackground,  } from 'react-native'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { Text,  Appbar, Provider as PaperProvider } from 'react-native-paper'
 import NavigationBar from '../components/NavigationBar'
-import RoadIncidents from '../components/RoadIncidents';
 
-export default function HomeScreen({ navigation }) {
+export default function ProfileScreen({ navigation }) {
+
+  const logoutUser = () => {
+    try {
+      firebase.auth().signOut()
+      navigation.navigate('StartScreen')
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
     return (
       <View style={styles.background}>
         <ImageBackground style={styles.background} source={require("../components/pics/background.png")}>
           <View style= {styles.container}>
             <Text style={styles.header}>
-              Welcome Back, {firebase.auth().currentUser?.displayName}
+              Manage your account
             </Text>
-
-            <Text>
-              Traffic Updates from LTA
-            </Text>
-            <RoadIncidents />
-            
+            <TouchableOpacity style={styles.button} onPress={logoutUser}>
+              <Text>
+                Log Out
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('EditProfileScreen')}>
+                <Text>
+                    Edit Profile
+                </Text>
+            </TouchableOpacity>
           </View>
         </ImageBackground>
         <NavigationBar navigation={navigation} />
@@ -44,7 +56,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 30
   },
-  logOutButton: {
+  button: {
     alignItems: "center",
     backgroundColor: '#fcba03',
     padding: 10,
@@ -56,5 +68,3 @@ const styles = StyleSheet.create({
   }
 
 })
-
-

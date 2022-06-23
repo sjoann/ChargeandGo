@@ -37,6 +37,7 @@ export default function RegisterScreen({ navigation }) {
         }
       }
 
+    /*
     const usernameTaken = async () => {
       try {
           const list = [];
@@ -62,7 +63,7 @@ export default function RegisterScreen({ navigation }) {
         } catch (error) {
           console.log(error);
         }
-    }
+    }*/
       
     const onSignUpPressed = async () => {
       const nameError = nameValidation(name.value)
@@ -92,11 +93,11 @@ export default function RegisterScreen({ navigation }) {
       if (password.value != confirmedPassword.value) {
         alert("Password doesn't match")
         return
-      }
+      }/*
       if (usernameTaken()) {
         alert("Username taken. Choose another username.")
         return
-      }
+      }*/
       setLoading(true)
       const response = await signUpUser({
         name: name.value,

@@ -17,6 +17,8 @@ import ForumScreen from './src/screens/ForumScreen';
 import PostScreen from './src/screens/PostScreen';
 import SubmissionScreen from './src/screens/SubmissionScreen'
 import CommentScreen from './src/screens/CommentScreen';
+import ProfileScreen from './src/screens/ProfileScreen';
+import EditProfileScreen from './src/screens/EditProfileScreen';
 import {LogBox} from "react-native";
 LogBox.ignoreLogs([
 "exported from 'deprecated-react-native-prop-types'.",
@@ -41,6 +43,8 @@ export default function App() {
           <Stack.Screen name="PostScreen" component={PostScreen} />
           <Stack.Screen name="SubmissionScreen" component={SubmissionScreen} />
           <Stack.Screen name="CommentScreen" component={CommentScreen} />
+          <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+          <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

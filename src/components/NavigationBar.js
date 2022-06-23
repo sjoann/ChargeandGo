@@ -7,19 +7,19 @@ export default function NavigationBar({ navigation }) {
     return (
         <View style={styles.rectangleShape}> 
 
-        <TouchableOpacity style={styles.iconButtons}  onPress={() => navigation.navigate('HomeScreen')} hitSlop={{left: -25, right: -25}}>
+        <TouchableOpacity style={styles.iconButtons}  onPress={() => navigation.push('HomeScreen')} hitSlop={{left: -25, right: -25}}>
           <Image style={styles.icons} source={require("../components/pics/home_grey.png")}  />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.iconButtons}  onPress={() => navigation.navigate('MapScreen')} hitSlop={{left: -25, right: -25}}>
+        <TouchableOpacity style={styles.iconButtons}  onPress={() => navigation.push('MapScreen')} hitSlop={{left: -25, right: -25}}>
           <Image style={styles.icons} source={require("../components/pics/charger_grey.png")}  />
         </TouchableOpacity>
         
-        <TouchableOpacity style={styles.iconButtons}  onPress={() => navigation.navigate('ForumScreen')} hitSlop={{left: -25, right: -25}}>
+        <TouchableOpacity style={styles.iconButtons}  onPress={() => navigation.push('ForumScreen')} hitSlop={{left: -25, right: -25}}>
           <Image style={styles.icons} source={require("../components/pics/messaging_grey.png")}  />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.iconButtons}  onPress={() => navigation.navigate('ResetPasswordScreen')} hitSlop={{left: -25, right: -25}}>
+        <TouchableOpacity style={styles.iconButtons}  onPress={() => navigation.navigate('ProfileScreen')} hitSlop={{left: -25, right: -25}}>
           <Image style={styles.icons} source={require("../components/pics/user_grey.png")}  />
         </TouchableOpacity>
 
