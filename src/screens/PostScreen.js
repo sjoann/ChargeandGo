@@ -109,10 +109,9 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         borderColor: '#525252',
-        height: 40,
+        height: 44,
         width: Dimensions.get('window').width - 30,
         padding: 10
-        
     },
     textBox: {
         fontSize: 20,

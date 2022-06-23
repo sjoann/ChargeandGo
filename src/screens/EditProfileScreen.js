@@ -5,6 +5,7 @@ import 'firebase/compat/auth';
 import { getStatusBarHeight } from 'react-native-status-bar-height'
 import {updateProfile} from "firebase/auth";
 import { getDocs, getFirestore, collection, query, where, doc, updateDoc} from 'firebase/firestore/lite'
+import BackButton from '../components/BackButton';
 
 export default function EditProfileScreen({ navigation }) {
     const [name, setName] = useState(null);
@@ -85,14 +86,7 @@ export default function EditProfileScreen({ navigation }) {
     return(
     <ImageBackground style={styles.background} source={require("../components/pics/background.png")}>
         <SafeAreaView style={styles.container}>
-            <TouchableOpacity 
-             style={styles.back}
-             onPress={() =>  navigation.push('ProfileScreen')}>
-            <Image
-            style={styles.image}
-            source={require('../components/pics/backarrow.png')}
-            />
-            </TouchableOpacity>
+        <BackButton goBack={ navigation.goBack }/>
             <Text style={styles.header}>
                 Edit your profile
             </Text>
@@ -103,7 +97,7 @@ export default function EditProfileScreen({ navigation }) {
              onChangeText={name => setName(name)}
              />
              <TextInput 
-             style={styles.passwordBox}
+             style={styles.emailBox}
              placeholder="Enter email to edit password"
              value={email}
              onChangeText={email => setEmail(email)}
@@ -132,38 +126,28 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignContent: 'center',
     },
-    back: {
-        position: 'absolute',
-        top: 10 + getStatusBarHeight(),
-        left: 4,
-      },
-    image: {
-        width: 24,
-        height: 24,
-    },
     header: {
         fontSize: 30,
         fontWeight: 'bold',
         marginBottom: 30
     },
     nameBox: {
-        fontSize: 25,
-        marginBottom: 30,
-        borderWidth: 2,
+        fontSize: 20,
+        marginBottom: 20,
+        borderWidth: 1,
         borderRadius: 5,
-        borderColor: '#fff',
-        height: 60,
+        borderColor: '#525252',
+        height: 44,
         width: Dimensions.get('window').width - 30,
         padding: 10
-        
     },
-    passwordBox: {
-        fontSize: 25,
-        marginBottom: 50,
-        borderWidth: 2,
+    emailBox: {
+        fontSize: 20,
+        marginBottom: 20,
+        borderWidth: 1,
         borderRadius: 5,
-        borderColor: '#fff',
-        height: 90,
+        borderColor: '#525252',
+        height: 44,
         width: Dimensions.get('window').width - 30,
         padding: 10
     },
