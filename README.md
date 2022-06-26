@@ -34,6 +34,8 @@
     <br />
     <a href="https://github.com/sjoann/ChargeandGo"><strong>Explore the docs »</strong></a>
     <br />
+    <a href="https://docs.google.com/document/d/1dyQ1PNaUnZQlqb_oTbrhhm3xdE_eACdu223YXWaBXs4/edit?usp=sharing"><strong>Read our Manual »</strong></a>
+    <br />
     <br />
     <a href="https://www.youtube.com/watch?v=OiTX5_LfhzA">Watch our Video</a>
     ·
@@ -60,12 +62,6 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -98,118 +94,7 @@ This means that there will be a larger population of users using electric vehicl
     <li>As a driver, I want to find out the closest amenities such as washrooms and restaurants while waiting for my car to be charged</li>
     <li>As a driver, I want an application that is easy to navigate around</li>
   </ol>
-<h3>Features</h3>
-<h4>Login & Registration</h4>
-[Proposed]
-</br>
-Upon opening our application, users can choose to log in or register
-</br>
-</br>
-To create an account, users have to enter the following details:
-  <ol>
-    <li>Name</li>
-    <li>Email</li>
-    <li>Profile Picture</li>
-    <li>Password</li>
-  </ol>
- Users are able to switch between the login page and registration page easily.
 
-[Current Progress]
-</br>
-Currently, we require users to register with
-  <ol>
-    <li>Name</li>
-    <li>Email</li>
-    <li>Password</li>
-  </ol>
-However, more work needs to be done to implement the profile picture feature.
-Furthermore, we should require users to confirm their password again to prevent them from mistyping their password.
-</br>
-</br>
-Users can also reset their password by keying in their email
-</br>
-</br>
-If the account is not found, the user will receive an alert
-</br>
-</br>
-If the account exists, users will have to reset their password using the link sent to their email account
-</br>
-</br>
-[Possible additional features]
-</br>
-To save user’s time, we could implement Google and FaceBook authentication for easy one click registration and log in.
-</br>
-</br>
-Upon registration/logging in, users will be brought over to the home page.
-
-<h4>Home Page</h4>
-[Proposed]
-</br>
-Find out where the road works are carried out around Singapore.
-</br>
-Check real-time footage of traffic conditions on the roads.
-</br>
-Check live traffic conditions and updates on road closures and road works.
-</br>
-</br>
-[Current Progress]
-</br>
-Using LTA’s DataMall API, we are able to fetch the latest road incidents. We have decided to push the 10 latest ones to the user using a scroll table (see Figure 7). This provides easy access to traffic news for drivers.
-</br>
-</br>
-More work needs to be done in improving the user interface, such as decluttering the table.
-
-<h4>Map</h4>
-[Proposed]
-</br>
-Google Map displaying the locations of the electric car charging stations via red markers.
-</br>
-</br>
-Filter system:
-  <ol>
-    <li>Availability of charger</li>
-    <li>Type of charging cables</li>
-    <li>Chargers within a specified radius</li>
-  </ol>
- Sort system:
-   <ol>
-    <li>Cost of charging</li>
-    <li>Cost of parking</li>
-    <li>Distance away from current location</li>
-  </ol>
-  Search system:
-  <ol>
-    <li>Search for specified location</li>
-  </ol>
-  Users are also able to submit new charging locations by dragging a pin on the map, which will be pushed to our Firebase.
-  </br>
-  </br>
-  [Current Progress]
-  </br>
-  We implemented Google Maps with markers and listed down charging stations with the details of the chargers (see Figure 8). The location of the user will also appear on the map.
-</br>
-</br>
-When the user clicks on a specific charger, a callout will be displayed above the charger, showing the name and the description that was submitted by previous users.
-<h4>Forum</h4>
-[Proposed]
-</br>
-Forum displaying questions and answers of the users
-   <ol>
-    <li>Other Q&A such as nearby amenities (washroom, restaurants, etc)</li>
-    <li>Find out current occupancy of charging station</li>
-    <li>Report faulty charging station</li>
-  </ol>
-
-[Current Progress]
-</br>
-Currently, users can submit a post.
-</br>
-A post consists of
-   <ol>
-    <li>Post title</li>
-    <li>Post text</li>
-    <li>Post date and time</li>
-  </ol>
 
 
 
