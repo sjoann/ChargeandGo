@@ -34,7 +34,7 @@
     <br />
     <a href="https://github.com/sjoann/ChargeandGo"><strong>Explore the docs »</strong></a>
     <br />
-    <a href="https://docs.google.com/document/d/1dyQ1PNaUnZQlqb_oTbrhhm3xdE_eACdu223YXWaBXs4/edit?usp=sharing"><strong>Read our Manual »</strong></a>
+    <a href="https://docs.google.com/document/d/1dyQ1PNaUnZQlqb_oTbrhhm3xdE_eACdu223YXWaBXs4/edit?usp=sharing"><strong>Read our Report »</strong></a>
     <br />
     <br />
     <a href="https://www.youtube.com/watch?v=OiTX5_LfhzA">Watch our Video</a>
