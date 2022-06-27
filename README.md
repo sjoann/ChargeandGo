@@ -69,7 +69,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
+  <a href="https://docs.google.com/document/d/1dyQ1PNaUnZQlqb_oTbrhhm3xdE_eACdu223YXWaBXs4/edit?usp=sharing"><strong>To read our full README, please click here »</strong></a>
 <h3>Motivation</h3> 
 
 When you’re left with 5% of charge in your electric vehicle, or just want a general direction to the nearest car charger in Singapore, your current alternatives are searching through a list of applications (Greenlots, QuickCharge, SP Mobility, BlueSG etc) to find the closest charger.
