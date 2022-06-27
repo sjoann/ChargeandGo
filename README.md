@@ -95,7 +95,7 @@ This means that there will be a larger population of users using electric vehicl
     <li>As a driver, I want an application that is easy to navigate around</li>
   </ol>
 
-
+  <a href="https://docs.google.com/document/d/1dyQ1PNaUnZQlqb_oTbrhhm3xdE_eACdu223YXWaBXs4/edit?usp=sharing"><strong>To read our full README, please click here »</strong></a>
 
 
 
