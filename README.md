@@ -134,7 +134,7 @@ Node and npm are required to be installed before use. You can install Node [here
    ```
 2. Install NPM packages
    ```sh
-   npm install
+   npm install --f
    ```
 3. Run Expo CLI
    ```js
