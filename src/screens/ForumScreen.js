@@ -95,16 +95,18 @@ export default function ForumScreen({ navigation }) {
             })
          } else {
             //dislike
-            updateDoc(doc(db, "posts", id), {
-               dislikes: dislikes + 1,
-               dislikeArr: arr.concat([current])
-            }).then(() => {
-               setDislikePressed(false)
-            });
+            
             if (dislikes + 1 > 30) { 
                 //too many dislikes hece we will delete the post (credit score system)
                 deleteDoc(doc(db, "posts", id));
                 alert("Post is automatically deleted due to the large number of downvotes.")
+            } else {
+                updateDoc(doc(db, "posts", id), {
+                    dislikes: dislikes + 1,
+                    dislikeArr: arr.concat([current])
+                 }).then(() => {
+                    setDislikePressed(false)
+                 });
             }
         }
      }
