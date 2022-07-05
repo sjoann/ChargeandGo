@@ -4,6 +4,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { Text,  Appbar, Provider as PaperProvider } from 'react-native-paper'
 import NavigationBar from '../components/NavigationBar'
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export default function ProfileScreen({ navigation }) {
 
@@ -23,16 +24,33 @@ export default function ProfileScreen({ navigation }) {
             <Text style={styles.header}>
               Manage your account
             </Text>
-            <TouchableOpacity style={styles.button} onPress={logoutUser}>
-                <Text>
-                    Log Out
-                </Text>
+            
+            <TouchableOpacity
+            onPress={() => navigation.push('EditProfileScreen')}
+            >
+               <FontAwesome name='user-circle' size={23} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('EditProfileScreen')}>
-                <Text>
+            <Text style={styles.button}>
                     Edit Profile
-                </Text>
+            </Text>
+            
+            <TouchableOpacity
+            onPress={() => navigation.push('FeedbackScreen')}
+            >
+              <FontAwesome name='flag' size={23} />
             </TouchableOpacity>
+            <Text style={styles.button}>
+              Feedback
+            </Text>
+
+            <TouchableOpacity 
+            onPress={logoutUser}
+            >
+              <FontAwesome name='power-off' size={23} />
+            </TouchableOpacity>
+            <Text style={styles.button}>
+                    Log Out
+            </Text>
           </View>
         </ImageBackground>
         <NavigationBar navigation={navigation} />
@@ -46,7 +64,8 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: 20,
     alignSelf: 'center',
-    alignItems: "center"
+    alignItems: "center",
+    justifyContent:'center'
   },
   image: {
     width: 30,
@@ -61,14 +80,8 @@ const styles = StyleSheet.create({
     marginBottom: 30
   },
   button: {
-    alignItems: "center",
-    backgroundColor: '#fcba03',
-    padding: 10,
-    marginBottom: 15,
-    height: 40,
-    borderRadius: 10,
-    width: 100,
-    alignSelf: 'center'
+    fontSize: 18, 
+    marginBottom: 10
   }
 
 })

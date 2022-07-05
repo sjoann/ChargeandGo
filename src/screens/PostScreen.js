@@ -24,6 +24,10 @@ export default function PostScreen({ navigation }) {
             text: text,
             postTime: serverTimestamp(),
             name: firebase.auth().currentUser?.displayName,
+            likes: 0,
+            dislikes: 0,
+            likeArr: [],
+            dislikeArr: []
         })
         .then(() => {
           alert('Your post has been published!')

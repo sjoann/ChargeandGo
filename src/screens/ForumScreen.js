@@ -1,21 +1,30 @@
 import React, {useState, useEffect } from 'react'
 import { View, StyleSheet, TouchableOpacity, Button, ImageBackground, Text, FlatList, SafeAreaView} from 'react-native'
-import { getDocs, getFirestore, collection, orderBy, query,  } from 'firebase/firestore/lite'
+import { getDocs, getFirestore, collection, orderBy, query, updateDoc, doc, getDoc, deleteDoc} from 'firebase/firestore/lite'
 import NavigationBar from '../components/NavigationBar'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 
 export default function ForumScreen({ navigation }) {
     const [forum, setForum] = useState(null);
+    const [likePressed, setLikePressed] = useState(false)
+    const [dislikePressed, setDislikePressed] = useState(false)
+    const current = firebase.auth().currentUser?.displayName
+    const db = getFirestore()
+    const colRef = collection(db, "posts")
 
     useEffect(() => {
         getForum();
     }, []);
     
+    useEffect(() => {
+        getForum();
+    }, [likePressed, dislikePressed]);
+    
     const getForum = async () => {
     try {
       const list = [];
-      const db = getFirestore()
-      const colRef = collection(db, 'posts')
       const q = query(colRef, orderBy('postTime', 'desc'))
       const querySnapshot = await getDocs(q);        
       querySnapshot.forEach((doc) => {
@@ -24,14 +33,121 @@ export default function ForumScreen({ navigation }) {
                   text,
                   postTime,
                   name,
+                  likes,
+                  likeArr,
+                  dislikes,
+                  dislikeArr
                 } = doc.data();
               list.push({...doc.data(), id: doc.id })
           })
-      setForum(list);
+      setForum(list)
     } catch (error) {
       console.log(error);
     }
-  }
+   }
+
+   const likeActivated =  async (likes, arr, id) => {
+       let bool = false
+       setLikePressed(true)
+       console.log(arr)
+       arr.forEach(user => {
+           if (user == current) {
+               //user has already like before
+               bool = true
+           }
+       })
+       if (bool) { 
+         //unliking 
+          updateDoc(doc(db, "posts", id), {
+             likes: likes - 1,
+             likeArr: arr.filter(user => user != current)
+           }).then(() => {
+             setLikePressed(false)
+           })
+        } else {
+         //liking
+           updateDoc(doc(db, "posts", id), {
+              likes: likes + 1,
+              likeArr: arr.concat([current])
+           }).then(() => {
+              setLikePressed(false)
+           });
+       }
+    }
+
+    const dislikeActivated =  async (dislikes, arr, id) => {
+        let bool = false
+        setDislikePressed(true)
+        console.log(arr)
+        arr.forEach(user => {
+            if (user == current) {
+                //user has already dislike before
+                bool = true
+            }
+        })
+        if (bool) { 
+          //undoing the dislike
+           updateDoc(doc(db, "posts", id), {
+              dislikes: dislikes - 1,
+              dislikeArr: arr.filter(user => user != current)
+            }).then(() => {
+              setDislikePressed(false)
+            })
+         } else {
+            //dislike
+            updateDoc(doc(db, "posts", id), {
+               dislikes: dislikes + 1,
+               dislikeArr: arr.concat([current])
+            }).then(() => {
+               setDislikePressed(false)
+            });
+            if (dislikes + 1 > 30) { 
+                //too many dislikes hece we will delete the post (credit score system)
+                deleteDoc(doc(db, "posts", id));
+                alert("Post is automatically deleted due to the large number of downvotes.")
+            }
+        }
+     }
+
+   /*const likeActivated =  async (likes, id) => {
+      let bool = false
+      let arr = []
+      const docRef = doc(colRef, id)
+      
+      await getDoc(docRef)
+       .then(doc => {
+          arr = doc.data().likeArr
+          setLikePressed(true)
+       })
+       .catch(err => {
+         console.log('Error getting document', err);
+       });
+     
+       console.log(arr)
+       arr.forEach(user => {
+          if (user == current) { 
+           //user has already like before
+             bool = true
+          }
+       })
+       if (bool) { 
+           //unliking 
+            updateDoc(doc(db, "posts", id), {
+            likes: likes - 1,
+            likeArr: arr.filter(user => user != current)
+           }).then(() => {
+               setLikePressed(false)
+          })
+       } else {
+           //liking
+             updateDoc(doc(db, "posts", id), {
+             likes: likes + 1,
+             likeArr: arr.concat([current])
+           }).then(() => {
+               setLikePressed(false)
+           });
+       }
+   }*/
 
     return(
         <ImageBackground style={styles.background} source={require("../components/pics/background.png")}>
@@ -53,12 +169,34 @@ export default function ForumScreen({ navigation }) {
                     <Text style={styles.date}>
                         Posted by {item.name} on {new Date(item.postTime.toDate()).toDateString().substring(4, 15)}
                     </Text>
+                    <View style={{flexDirection:'row'}}>
+                        <Text style={styles.thumb}>
+                            {item.likes}
+                        </Text>
+                        <TouchableOpacity
+                        onPress={() => likeActivated(item.likes, item.likeArr, item.id)}
+                        >
+                            <FontAwesome name='thumbs-o-up' size={18} />
+                        </TouchableOpacity>
+                        <Text style={styles.thumb}>
+                            {item.dislikes} 
+                        </Text>
+                        <TouchableOpacity
+                        onPress={() => dislikeActivated(item.dislikes, item.dislikeArr, item.id)}
+                        >
+                            <FontAwesome name='thumbs-o-down' size={18} />
+                        </TouchableOpacity>
+                        
+                    </View>
                 </View>
                 <View style={styles.details}>
                     <TouchableOpacity
-                    style={styles.commentButton}
                     onPress={() => navigation.navigate('CommentScreen', 
-                      {paramKey: item.id, paramTitle: item.title, paramText: item.text, paramName: item.name, paramDate: new Date(item.postTime.toDate()).toDateString().substring(4, 15)})}
+                      { paramKey: item.id,
+                        paramTitle: item.title, 
+                        paramText: item.text, 
+                        paramName: item.name, 
+                        paramDate: new Date(item.postTime.toDate()).toDateString().substring(4, 15)})}
                     >
                         <FontAwesome name='comments' size={23} />
                     </TouchableOpacity>
@@ -132,7 +270,10 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 10,
     },
-    details: {
-        flexDirection: 'row',
+    thumb: {
+        fontSize: 15,
+        marginHorizontal: 4,
+        marginTop: 2
     }
+    
 })
