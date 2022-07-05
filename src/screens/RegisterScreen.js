@@ -37,21 +37,15 @@ export default function RegisterScreen({ navigation }) {
         }
       }
 
-    /*
-    const usernameTaken = async () => {
+      /*
+    const usernameTaken = () => {
       try {
           const list = [];
           const db = getFirestore()
           const colRef = collection(db, 'users')
           const q = query(colRef, where("username", "==", name.value));
-          const querySnapshot = await getDocs(q);   
-          querySnapshot.forEach((doc) => {
-                  const {
-                      username
-                    } = doc.data();
-                  list.push({...doc.data(), id: doc.id })
-              })
-          if (list.length != 0) {
+          const querySnapshot = getDocs(q);   
+          if (typeof(querySnapshot) == "undefined") {
             return true
           } else {
             //username not taken, now we will then add the name to firestore
@@ -63,8 +57,8 @@ export default function RegisterScreen({ navigation }) {
         } catch (error) {
           console.log(error);
         }
-    }*/
-      
+    }
+      */
     const onSignUpPressed = async () => {
       const nameError = nameValidation(name.value)
       const emailError = emailValidation(email.value)
@@ -93,11 +87,11 @@ export default function RegisterScreen({ navigation }) {
       if (password.value != confirmedPassword.value) {
         alert("Password doesn't match")
         return
-      }/*
+      }
       if (usernameTaken()) {
         alert("Username taken. Choose another username.")
         return
-      }*/
+      }
       setLoading(true)
       const response = await signUpUser({
         name: name.value,

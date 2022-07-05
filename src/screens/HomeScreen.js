@@ -49,16 +49,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 30
   },
-  logOutButton: {
-    alignItems: "center",
-    backgroundColor: '#fcba03',
-    padding: 10,
-    marginBottom: 15,
-    height: 40,
-    borderRadius: 10,
-    width: 100,
-    alignSelf: 'center'
-  }
+ 
 
 })
 

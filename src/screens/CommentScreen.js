@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { TouchableOpacity, StyleSheet, View, TextInput, Text, ImageBackground, SafeAreaView, FlatList, Button, Image, KeyboardAvoidingView } from 'react-native'
-import { getDocs, getFirestore, collection, addDoc,serverTimestamp, query, where, doc, getDoc} from 'firebase/firestore/lite'
+import { getDocs, getFirestore, addDoc,serverTimestamp, query, where, doc, collection, orderBy, } from 'firebase/firestore/lite'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
-import BackButton from '../components/BackButton';
+import { getStatusBarHeight } from 'react-native-status-bar-height'
 
 export default function CommentScreen({ route, navigation }) {
     
@@ -35,10 +35,6 @@ export default function CommentScreen({ route, navigation }) {
                   list.push({...doc.data(), id: doc.id })
               })
           setComments(list);
-          console.log('comments: ', comments);
-          if (list.length == 0) {
-            console.log("empty")
-        }
         } catch (error) {
           console.log(error);
         }
@@ -68,12 +64,17 @@ export default function CommentScreen({ route, navigation }) {
         });
     }
 
-
     return(
         <ImageBackground style={styles.background} source={require("../components/pics/background.png")}>
              <SafeAreaView style={{flex:1}}>
-                <BackButton goBack={ navigation.goBack }/>
-
+                 <TouchableOpacity
+                 style={styles.back}
+                 onPress={() => navigation.push('ForumScreen')}>
+                     <Image
+                     style={styles.image}
+                     source={require('../components/pics/backarrow.png')}
+                     />
+                </TouchableOpacity>
                 <View style={styles.post}>
                     <Text style={styles.title}>
                         {route.params.paramTitle}
@@ -82,7 +83,7 @@ export default function CommentScreen({ route, navigation }) {
                         {route.params.paramText}
                     </Text>
                     <Text style={styles.date}>
-                        Posted by {route.params.paramName} on {route.params.paramDate}
+                        Posted by {route.params.paramName} on {route.params.paramDate} 
                     </Text>
                 </View>
                  <FlatList 
@@ -173,5 +174,14 @@ const styles = StyleSheet.create({
     submitButton: {
         flex: 1,
         marginLeft:5
-    }
+    },
+    back: {
+        position: 'absolute',
+        top: 10 + getStatusBarHeight(),
+        left: 4,
+      },
+    image: {
+        width: 24,
+        height: 24,
+    },
 })

@@ -79,7 +79,7 @@ export default function EditProfileScreen({ navigation }) {
         } else {
             setEmail(null)
             await updateName() 
-            alert('Username updated. Check your email to change your password')
+            alert('Username updated.', 'Check your email to change your password')
         }
     }
     
