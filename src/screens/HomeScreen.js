@@ -5,6 +5,7 @@ import 'firebase/compat/auth';
 import { Text,  Appbar, Provider as PaperProvider } from 'react-native-paper'
 import NavigationBar from '../components/NavigationBar'
 import RoadIncidents from '../components/RoadIncidents';
+import TravelTime from '../components/TravelTime';
 
 export default function HomeScreen({ navigation }) {
 
@@ -20,6 +21,10 @@ export default function HomeScreen({ navigation }) {
               Traffic Updates from LTA
             </Text>
             <RoadIncidents />
+            <Text>
+              Some very nice images :)
+            </Text>
+            <TravelTime />
             
           </View>
         </ImageBackground>

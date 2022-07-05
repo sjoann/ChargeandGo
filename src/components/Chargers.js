@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, setState } from 'react'
 import { View, StyleSheet, TouchableOpacity, Button,  Text, ImageBackground, Dimensions, Image, List, FlatList, ActivityIndicator } from 'react-native'
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
@@ -6,6 +6,7 @@ import { getDocs, getFirestore, collection} from 'firebase/firestore/lite'
 import {getDistance} from 'geolib';
 import * as Location from 'expo-location';
 import openMap from 'react-native-open-maps';
+import Modal from "react-native-modal";
 
 function markers(chargers) {
     return( 
@@ -40,7 +41,8 @@ class Chargers extends Component {
             curPosition: {},
             loaded: false,
             sortType: 1,
-            refresh: false
+            refresh: false,
+            isModalShown: false
         }
     }
 
@@ -91,13 +93,13 @@ class Chargers extends Component {
         
         return(
 
-            <View>
+            <View style={{flex: 1, alignItems: 'center'}}>
                 <MapView 
                 provider={"google"}
                 initialRegion={{
                     latitude: 1.351927,
                     longitude: 103.867081,
-                    latitudeDelta: 0.0922,
+                    latitudeDelta: 0.12,
                     longitudeDelta: 0.0421,
                     
                 }}
@@ -106,84 +108,103 @@ class Chargers extends Component {
                 style={styles.map}>       
                     {markers(chargersList)}
                 </MapView>
-                <View style={styles.row}>
-                    <TouchableOpacity style={styles.rowButtons} onPress={() => this.setState({sortType: 1})}>
-                        <Text>
-                            Sort by distance
-                        </Text>
+                <View style={{position:'absolute', bottom: 0, left: 10}}>
+                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SubmissionScreen')}>
+                    <Image style={{height: 80, width: 80}} source={require("./pics/add.png")}/>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.rowButtons} onPress={() => this.setState({sortType: 2})}>
-                        <Text>
-                            Sort by speed
-                        </Text>
+                    <TouchableOpacity style={styles.button} onPress={() => this.setState({isModalShown: !this.state.isModalShown})}>
+                        <Image style={{height:30, width: 30}} source={require("./pics/charger_black.png")}/>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.rowButtons} onPress={() => this.setState({sortType: 3})}>
-                        <Text>
-                            Sort by cost
-                        </Text>
-                    </TouchableOpacity>
-
                 </View>
-
-                { (!this.state.loaded) && (<ActivityIndicator />)}
-                { (this.state.loaded) && (
-                <FlatList 
-                    data={       
-                        ((this.state.sortType===1) && chargers.sort((a,b)=>a.distance-b.distance)) ||
-                        ((this.state.sortType===2) && chargers.sort((a,b)=>b.speed-a.speed)) ||
-                        ((this.state.sortType===3) && chargers.sort((a,b)=>a.cost-b.cost))
-                    }
-                    extraData={this.state.sortType}
-                    ItemSeparatorComponent={() => {
-                        return (
-                          <View
-                            style={{
-                              height: 1,
-                              width: "100%",
-                              backgroundColor: "#607D8B",
-                            }}
-                          />
-                        );
-                      }}
-                    renderItem={
-                        ({item}) => (
-                        <View style={styles.horizontal}>
-                            <View style={styles.body}>                            
-                                <Text style={styles.item}>
-                                    {item.obj.name}
-                                    {" "}
-                                    {item.distance +"m away"
                                 
-                                }
-                                </Text>
+                <Modal transparent={true} style={{justifyContent: 'flex-end'}} isVisible={this.state.isModalShown} onBackdropPress={()=>this.setState({isModalShown:false})}>
+                    <View style={{backgroundColor: "#ffb200", height: 400, borderRadius: 10, marginBottom: 42, width: Dimensions.get('window').width, alignSelf: 'center'}}>
+
+                        <View style={styles.row}>
+                            <TouchableOpacity style={styles.rowButtons} onPress={() => this.setState({sortType: 1})}>
                                 <Text>
-                                    {item.obj.speed + "kW, " + item.obj.type + ", " + item.obj.cost + "¢/kWh"}
+                                    Distance
                                 </Text>
-                        
-                            </View>
-                            <TouchableOpacity onPress={() => openMap({end:item.obj.location.latitude+", " + item.obj.location.longitude, 
-                            travelType:"drive"
-                            })}>
-                                    <Image
-                                    source={require("./pics/navigate_icon.png")}
-                                    style={{ height: 30, width: 30 }}
-                                    />
                             </TouchableOpacity>
+                            <TouchableOpacity style={styles.rowButtons} onPress={() => this.setState({sortType: 2})}>
+                                <Text>
+                                    Speed
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.rowButtons} onPress={() => this.setState({sortType: 3})}>
+                                <Text>
+                                    Cost
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={()=>this.setState({isModalShown: false})}>
+                                <Image style={{height: 30, width: 30}} source={require("./pics/quit.png")}/>
+                            </TouchableOpacity>
+
                         </View>
+
+                        { (!this.state.loaded) && (<ActivityIndicator />)}
+                        { (this.state.loaded) && (
+                        <FlatList 
+                            data={       
+                                ((this.state.sortType===1) && chargers.sort((a,b)=>a.distance-b.distance)) ||
+                                ((this.state.sortType===2) && chargers.sort((a,b)=>b.speed-a.speed)) ||
+                                ((this.state.sortType===3) && chargers.sort((a,b)=>a.cost-b.cost))
+                            }
+                            extraData={this.state.sortType}
+                            ItemSeparatorComponent={() => {
+                                return (
+                                <View
+                                    style={{
+                                    height: 1,
+                                    width: "100%",
+                                    backgroundColor: "#607D8B",
+                                    }}
+                                />
+                                );
+                            }}
+                            renderItem={
+                                ({item}) => (
+                                <View style={styles.horizontal}>
+                                    <View style={styles.body}>                            
+                                        <Text style={styles.item}>
+                                            {item.obj.name}
+                                            {" "}
+                                            {item.distance +"m away"
+                                        
+                                        }
+                                        </Text>
+                                        <Text>
+                                            {item.obj.speed + "kW, " + item.obj.type + ", " + item.obj.cost + "¢/kWh"}
+                                        </Text>
+                                
+                                    </View>
+                                    <TouchableOpacity onPress={() => {navigation.navigate('CommentScreen', 
+                            {paramKey: item.obj.identifier, paramTitle: item.obj.name, paramText: item.obj.name + " has been set up!", paramName: item.obj.posterName, paramDate: new Date(item.obj.postTime.toDate()).toDateString().substring(4, 15)});
+                                        this.setState({isModalShown: false})}}>
+                                        <Image source={require("./pics/messaging_black.png")} style={{height:30,width:30, marginRight: 5}} />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => {openMap({end:item.obj.location.latitude+", " + item.obj.location.longitude, 
+                                    travelType:"drive"
+                                    });
+                                    this.setState({isModalShown: false});}}>
+                                            <Image
+                                            source={require("./pics/navigate_icon.png")}
+                                            style={{ height: 30, width: 30 }}
+                                            />
+                                    </TouchableOpacity>
+                                </View>
+                                
+                                
+                                )
+                            }
                         
+                        />
                         
                         )
-                    }
-                
-                />
-                
-                )
-                }
-                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SubmissionScreen')}>
-                    <Text>
-                        Found a new charger?
-                    </Text>
-                </TouchableOpacity>
+                        }
+                    </View>
+
+                </Modal>
             </View>
                 
                 
@@ -194,21 +215,21 @@ class Chargers extends Component {
 const styles = StyleSheet.create({
     map: {
         width: Dimensions.get('window').width,
-        height: 400,
+        flex: 20
     },
     item: {
         fontSize: 18,
      },
     button: {
-        alignItems: "center",
         backgroundColor: '#fcba03',
-        padding: 10,
-        marginBottom: 5,
-        height: 40,
-        borderRadius: 10,
-        width: 300,
-        marginTop: 5,
-        alignSelf: 'center'
+        height: 60,
+        width: 60,
+        borderRadius: 60,
+        marginBottom: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
+        
+        
     },
     body: {
         flex: 10

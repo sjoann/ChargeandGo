@@ -22,7 +22,7 @@ export default function MapScreen({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'left',
         alignItems: 'center',
     },
     background: {

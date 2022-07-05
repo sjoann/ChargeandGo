@@ -66,32 +66,36 @@ class SubmitChargers extends Component {
             return 
         }
         const db = getFirestore()
-        const colRef = collection(db, 'chargers')
-        await addDoc(colRef, {
-            name: this.state.name + " " + this.state.chargerLocation,
-            speed: this.state.chargerSpeed,
-            cost: this.state.chargerCost,
-            type: this.state.chargerType,
-            location: {
-                latitude: this.state.selectedLatitude,
-                longitude: this.state.selectedLongitude
-            }
-        }).catch((error) =>
-        console.log(error)
-        );
         const postRef = collection(db, 'posts')
         await addDoc(postRef, {
             title: this.state.name + " " + this.state.chargerLocation,
             text: this.state.name + " " + this.state.chargerLocation + " has been set up!",
             postTime: serverTimestamp(),
             name: firebase.auth().currentUser?.displayName,
-        }).then(()=>{
-            alert("You have submitted a new charger.");
-            navigation.push('MapScreen');
+        }).then((docRef)=>{
+            const colRef = collection(db, 'chargers')
+            addDoc(colRef, {
+                name: this.state.name + " " + this.state.chargerLocation,
+                speed: this.state.chargerSpeed,
+                cost: this.state.chargerCost,
+                type: this.state.chargerType,
+                identifier : docRef.id,
+                postTime: serverTimestamp(),
+                posterName: firebase.auth().currentUser?.displayName,
+                location: {
+                    latitude: this.state.selectedLatitude,
+                    longitude: this.state.selectedLongitude
+                }
+            }).then(()=>            
+            {
+                alert("You have submitted a new charger.");
+                navigation.push('MapScreen');
+            })
         }
         ).catch((error) =>
             console.log(error)
         );
+
 
     }
 
