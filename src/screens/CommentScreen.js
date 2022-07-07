@@ -11,6 +11,9 @@ export default function CommentScreen({ route, navigation }) {
     const [text, setText] = useState(null);
     const [replied, setReplied] = useState(false)
 
+    const db = getFirestore()
+    const colRef = collection(db, 'comments')
+
     useEffect(() => {
         getComments();
     }, []);
@@ -22,8 +25,6 @@ export default function CommentScreen({ route, navigation }) {
     const getComments = async () => {
         try {
           const list = [];
-          const db = getFirestore()
-          const colRef = collection(db, 'comments')
           const q = query(colRef, where("identifier", "==", route.params.paramKey));
           const querySnapshot = await getDocs(q);   
           querySnapshot.forEach((doc) => {
@@ -46,13 +47,11 @@ export default function CommentScreen({ route, navigation }) {
             return 
         }
         setReplied(true)
-        const db = getFirestore()
-        const colRef = collection(db, 'comments')
         const docRef = await addDoc(colRef, {
             identifier: route.params.paramKey,
             text: text,
             postTime: serverTimestamp(),
-            name: firebase.auth().currentUser?.displayName,
+            name: firebase.auth().currentUser?.displayName
         })
         .then(() => {
           alert('Your comment has been published!')
@@ -63,6 +62,7 @@ export default function CommentScreen({ route, navigation }) {
           console.log(error);
         });
     }
+
 
     return(
         <ImageBackground style={styles.background} source={require("../components/pics/background.png")}>

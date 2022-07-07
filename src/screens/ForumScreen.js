@@ -10,6 +10,7 @@ export default function ForumScreen({ navigation }) {
     const [forum, setForum] = useState(null);
     const [likePressed, setLikePressed] = useState(false)
     const [dislikePressed, setDislikePressed] = useState(false)
+   
     const current = firebase.auth().currentUser?.displayName
     const db = getFirestore()
     const colRef = collection(db, "posts")
@@ -97,7 +98,7 @@ export default function ForumScreen({ navigation }) {
             //dislike
             
             if (dislikes + 1 > 30) { 
-                //too many dislikes hece we will delete the post (credit score system)
+                //too many dislikes hece we will delete the post 
                 deleteDoc(doc(db, "posts", id));
                 alert("Post is automatically deleted due to the large number of downvotes.")
             } else {
@@ -178,7 +179,7 @@ export default function ForumScreen({ navigation }) {
                         <TouchableOpacity
                         onPress={() => likeActivated(item.likes, item.likeArr, item.id)}
                         >
-                            <FontAwesome name='thumbs-o-up' size={18} />
+                            <FontAwesome size={18} name='thumbs-o-up'/>
                         </TouchableOpacity>
                         <Text style={styles.thumb}>
                             {item.dislikes} 
@@ -188,7 +189,6 @@ export default function ForumScreen({ navigation }) {
                         >
                             <FontAwesome name='thumbs-o-down' size={18} />
                         </TouchableOpacity>
-                        
                     </View>
                 </View>
                 <View style={styles.details}>
@@ -198,7 +198,12 @@ export default function ForumScreen({ navigation }) {
                         paramTitle: item.title, 
                         paramText: item.text, 
                         paramName: item.name, 
+                        paramLikes: item.likes,
+                        paramDislikes: item.dislikes,
+                        paramLikeArr: item.likeArr,
+                        paramDislikeArr: item.dislikeArr,
                         paramDate: new Date(item.postTime.toDate()).toDateString().substring(4, 15)})}
+                        
                     >
                         <FontAwesome name='comments' size={23} />
                     </TouchableOpacity>
