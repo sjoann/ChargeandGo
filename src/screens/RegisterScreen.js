@@ -88,10 +88,10 @@ export default function RegisterScreen({ navigation }) {
         alert("Password doesn't match")
         return
       }
-      if (usernameTaken()) {
+      /*if (usernameTaken()) {
         alert("Username taken. Choose another username.")
         return
-      }
+      }*/
       setLoading(true)
       const response = await signUpUser({
         name: name.value,

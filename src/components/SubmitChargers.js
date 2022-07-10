@@ -74,6 +74,10 @@ class SubmitChargers extends Component {
             text: this.state.name + " " + this.state.chargerLocation + " has been set up!",
             postTime: serverTimestamp(),
             name: firebase.auth().currentUser?.displayName,
+            likes:0,
+            dislikes:0,
+            likeArr: [],
+            dislikeArr: []
         }).then((docRef)=>{
             const colRef = collection(db, 'chargers')
             addDoc(colRef, {
