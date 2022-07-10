@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
         marginBottom: 30,
         borderRadius: 10,
         paddingTop: 5,
-        paddingBottom: 5
+        paddingBottom: 5,
       },
     item: {
         flex: 1,

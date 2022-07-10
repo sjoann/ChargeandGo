@@ -1,10 +1,11 @@
-import React, { Component } from 'react'
-import { View, StyleSheet, TextInput, TouchableOpacity, Button,  Text, ImageBackground, Dimensions, Image, List, FlatList } from 'react-native'
+import React, { Component, setState } from 'react'
+import { View, StyleSheet, TextInput, TouchableOpacity, Button,  Text, ImageBackground, Dimensions, Image, List, FlatList, KeyboardAvoidingView } from 'react-native'
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import { getDocs, getFirestore, collection, addDoc, serverTimestamp, } from 'firebase/firestore/lite';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
+import Modal from "react-native-modal";
 
 function markers(chargers) {
     return( 
@@ -42,7 +43,8 @@ class SubmitChargers extends Component {
             chargerLocation: null,
             chargerType: null,
             chargerCost: null,
-            chargerSpeed: null
+            chargerSpeed: null,
+            isModalShown: false
         }
     }
 
@@ -104,55 +106,12 @@ class SubmitChargers extends Component {
         const { chargersList, position } = this.state;
         return(
             <View style={styles.body}>
-                <Text style={styles.header}>
-                    Submit New Charger
-                </Text>
-                <TextInput
-                    style = {styles.input}
-                    placeholder='Charger Brand (eg: Tesla, SP Power etc)'
-                    label="Charger Brand"
-                    returnKeyType="done"
-                    onChangeText={(text) => this.state.name=text}
-                />
-                <TextInput
-                    style = {styles.input}
-                    placeholder='Charger Location (eg: 313 Somerset etc)'
-                    label="Charger Location"
-                    returnKeyType="done"
-                    onChangeText={(text) => this.state.chargerLocation=text}
-                />
-                <TextInput
-                    style = {styles.input}
-                    placeholder='Charger Type (eg: Type 2, CCS etc)'
-                    label="Charger Type"
-                    returnKeyType="done"
-                    onChangeText={(text) => this.state.chargerType=text}
-                />
-                <TextInput
-                    style = {styles.input}
-                    placeholder='Charging Cost ¢/kWh (eg: 32¢/kWh)'
-                    label="Charger Type"
-                    returnKeyType="done"
-                    keyboardType='number-pad'
-                    onChangeText={(text) => this.state.chargerCost=text}
-                />
-                <TextInput
-                    style = {styles.input}
-                    placeholder='Charging Speed kW (eg: 22kW)'
-                    keyboardType='number-pad'
-                    label="Charger Speed"
-                    returnKeyType="done"
-                    onChangeText={(text) => this.state.chargerSpeed=text}
-                />
-                <Text>
-                    Hold and drag the green pin below to select the location
-                </Text>
                 <MapView 
                 provider={"google"}
                 initialRegion={{
                     latitude: 1.351927,
                     longitude: 103.867081,
-                    latitudeDelta: 0.0922,
+                    latitudeDelta: 0.12,
                     longitudeDelta: 0.0421,
                     
                 }}
@@ -167,14 +126,72 @@ class SubmitChargers extends Component {
                     onDragEnd={(e) => {
                         this.state.selectedLatitude = e.nativeEvent.coordinate.latitude;
                         this.state.selectedLongitude = e.nativeEvent.coordinate.longitude;
+                        this.setState({isModalShown: true})
                     }}
                     />
                 </MapView>
-                <TouchableOpacity style = {styles.submitButton} onPress={()=>{
-                    this.submitCharger(navigation);
-                    }}>
-                    <Text style = {styles.submitButtonText}> Submit </Text>
-                </TouchableOpacity>
+
+                <Modal transparent={true} style={{justifyContent: 'flex-end'}} isVisible={this.state.isModalShown} onBackdropPress={()=>this.setState({isModalShown:false})}>
+                    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+                        <View style={styles.field} >
+                            <View style={{flexDirection: 'row', justifyContent:'center', alignItems:'center'}}>
+                                <Text style={{flex: 15, alignSelf:'center', justifyContent:'center', textAlign:'center', fontSize:20, fontWeight:'bold', marginLeft:30}}>
+                                    Submit a Charger
+                                </Text>
+                                <TouchableOpacity style={{alignSelf:'flex-end', marginRight: 10, flex: 1}} onPress={()=>this.setState({isModalShown: false})}>
+                                    <Image style={{height: 30, width: 30}} source={require("./pics/quit.png")}/>
+                                </TouchableOpacity>
+                            </View>
+
+                            <TextInput
+                                style = {styles.input}
+                                placeholder='Charger Brand (eg: Tesla, SP Power etc)'
+                                label="Charger Brand"
+                                returnKeyType="done"
+                                onChangeText={(text) => this.state.name=text}
+                            />
+                            <TextInput
+                                style = {styles.input}
+                                placeholder='Charger Location (eg: 313 Somerset etc)'
+                                label="Charger Location"
+                                returnKeyType="done"
+                                onChangeText={(text) => this.state.chargerLocation=text}
+                            />
+                            <TextInput
+                                style = {styles.input}
+                                placeholder='Charger Type (eg: Type 2, CCS etc)'
+                                label="Charger Type"
+                                returnKeyType="done"
+                                onChangeText={(text) => this.state.chargerType=text}
+                            />
+                            <TextInput
+                                style = {styles.input}
+                                placeholder='Charging Cost ¢/kWh (eg: 32¢/kWh)'
+                                label="Charger Type"
+                                returnKeyType="done"
+                                keyboardType='number-pad'
+                                onChangeText={(text) => this.state.chargerCost=text}
+                            />
+                            <TextInput
+                                style = {styles.input}
+                                placeholder='Charging Speed kW (eg: 22kW)'
+                                keyboardType='number-pad'
+                                label="Charger Speed"
+                                returnKeyType="done"
+                                onChangeText={(text) => this.state.chargerSpeed=text}
+                            />
+                            <TouchableOpacity style = {styles.submitButton} onPress={()=>{
+                                this.setState({isModalShown: false})
+                                this.submitCharger(navigation);
+                                }}>
+                                <Text style = {styles.submitButtonText}> Submit </Text>
+                            </TouchableOpacity>
+                        </View>
+
+                    </KeyboardAvoidingView>
+
+
+                </Modal>
             </View>
                 
                 
@@ -185,7 +202,7 @@ class SubmitChargers extends Component {
 const styles = StyleSheet.create({
     map: {
         width: Dimensions.get('window').width,
-        height: 300,
+        flex: 20
     },
     header: {
         fontSize: 20
@@ -193,14 +210,14 @@ const styles = StyleSheet.create({
     input: {
         margin: 7,
         height: 40,
-        width: 300,
+        width: Dimensions.get('window').width - 40,
         padding: 10,
         borderColor: '#000000',
         borderWidth: 1,
         borderRadius: 10
     },
     submitButton: {
-        backgroundColor: '#fcba03',
+        backgroundColor: '#ff8c00',
         padding: 10,
         marginBottom: 15,
         height: 40,
@@ -212,6 +229,16 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     body: {
+        alignItems: 'center'
+    },
+    field: {
+        backgroundColor: "#ffb200",
+        height: 400,
+        borderRadius: 10,
+        marginBottom: 42,
+        width: Dimensions.get('window').width,
+        alignSelf: 'center',
+        justifyContent: 'center',
         alignItems: 'center'
     }
 })
