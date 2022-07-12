@@ -157,6 +157,7 @@ class SubmitChargers extends Component {
                             <TextInput
                                 style = {styles.input}
                                 placeholder='Charger Brand (eg: Tesla, SP Power etc)'
+                                placeholderTextColor={"#424242"}
                                 label="Charger Brand"
                                 returnKeyType="done"
                                 onChangeText={(text) => this.state.name=text}
@@ -164,6 +165,7 @@ class SubmitChargers extends Component {
                             <TextInput
                                 style = {styles.input}
                                 placeholder='Charger Location (eg: 313 Somerset etc)'
+                                placeholderTextColor={"#424242"}
                                 label="Charger Location"
                                 returnKeyType="done"
                                 onChangeText={(text) => this.state.chargerLocation=text}
@@ -171,6 +173,7 @@ class SubmitChargers extends Component {
                             <TextInput
                                 style = {styles.input}
                                 placeholder='Charger Type (eg: Type 2, CCS etc)'
+                                placeholderTextColor={"#424242"}
                                 label="Charger Type"
                                 returnKeyType="done"
                                 onChangeText={(text) => this.state.chargerType=text}
@@ -178,6 +181,7 @@ class SubmitChargers extends Component {
                             <TextInput
                                 style = {styles.input}
                                 placeholder='Charging Cost ¢/kWh (eg: 32¢/kWh)'
+                                placeholderTextColor={"#424242"}
                                 label="Charger Type"
                                 returnKeyType="done"
                                 keyboardType='number-pad'
@@ -186,6 +190,7 @@ class SubmitChargers extends Component {
                             <TextInput
                                 style = {styles.input}
                                 placeholder='Charging Speed kW (eg: 22kW)'
+                                placeholderTextColor={"#424242"}
                                 keyboardType='number-pad'
                                 label="Charger Speed"
                                 returnKeyType="done"
@@ -225,7 +230,7 @@ const styles = StyleSheet.create({
         padding: 10,
         borderColor: '#000000',
         borderWidth: 1,
-        borderRadius: 10
+        borderRadius: 10,
     },
     submitButton: {
         backgroundColor: '#ff8c00',
