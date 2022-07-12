@@ -7,6 +7,7 @@ import {getDistance} from 'geolib';
 import * as Location from 'expo-location';
 import openMap from 'react-native-open-maps';
 import Modal from "react-native-modal";
+import SelectDropdown from 'react-native-select-dropdown';
 
 function markers(chargers) {
     return( 
@@ -125,21 +126,21 @@ class Chargers extends Component {
                         <View style={{backgroundColor: "#ffb200", height: 400, borderRadius: 10, marginBottom: 42, width: Dimensions.get('window').width, alignSelf: 'center'}}>
 
                             <View style={styles.row}>
-                                <TouchableOpacity style={styles.rowButtons} onPress={() => this.setState({sortType: 1})}>
-                                    <Text>
-                                        Distance
-                                    </Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={styles.rowButtons} onPress={() => this.setState({sortType: 2})}>
-                                    <Text>
-                                        Speed
-                                    </Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={styles.rowButtons} onPress={() => this.setState({sortType: 3})}>
-                                    <Text>
-                                        Cost
-                                    </Text>
-                                </TouchableOpacity>
+                                <SelectDropdown
+                                    data={["Distance", "Speed", "Cost"]}
+                                    onSelect={(selectedItem, index) => {
+                                        this.setState({sortType: index+1})
+                                    }}
+                                    buttonTextAfterSelection={(selectedItem, index) => {
+                                        return "Sorted by " + selectedItem
+                                    }}
+                                    rowTextForSelection={(item, index) => {
+                                        return item
+                                    }}
+                                    buttonStyle={styles.rowButtons}
+                                    buttonTextStyle={{fontSize:13}}
+                                    defaultButtonText={"Sorted by Distance"}
+                                />
                                 <TouchableOpacity onPress={()=>this.setState({isModalShown: false})}>
                                     <Image style={{height: 30, width: 30}} source={require("./pics/quit.png")}/>
                                 </TouchableOpacity>
@@ -252,14 +253,15 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'space-between'
     },
     rowButtons: {
-        flex: 1,
         alignItems: 'center',
         backgroundColor: "orange",
         borderColor: 'black',
-        borderWidth: 1
+        borderWidth: 1,
+        height:  30,
+        width: 150
     }
 
 })

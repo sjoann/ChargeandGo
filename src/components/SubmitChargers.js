@@ -134,6 +134,13 @@ class SubmitChargers extends Component {
                     }}
                     />
                 </MapView>
+                <View style={{position:'absolute', bottom: 0, left: 10}}>
+                    <TouchableOpacity style={styles.button} onPress={() => {
+                            navigation.goBack()
+                        }}>
+                    <Image style={{height: 30, width: 30}} source={require("./pics/backarrow.png")}/>
+                    </TouchableOpacity>
+                </View>
 
                 <Modal transparent={true} style={{justifyContent: 'flex-end'}} isVisible={this.state.isModalShown} onBackdropPress={()=>this.setState({isModalShown:false})}>
                     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
@@ -244,7 +251,21 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         justifyContent: 'center',
         alignItems: 'center'
-    }
+    },
+    image: {
+        height: 30,
+        width: 30
+    }, button: {
+        backgroundColor: '#fcba03',
+        height: 60,
+        width: 60,
+        borderRadius: 60,
+        marginBottom: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
+        
+        
+    },
 })
 
 export default SubmitChargers;
