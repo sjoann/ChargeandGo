@@ -7,6 +7,7 @@ import NavigationBar from '../components/NavigationBar'
 import RoadIncidents from '../components/RoadIncidents';
 import TravelTime from '../components/TravelTime';
 
+
 export default function HomeScreen({ navigation }) {
 
     return (
@@ -17,13 +18,11 @@ export default function HomeScreen({ navigation }) {
               Welcome Back, {firebase.auth().currentUser?.displayName}
             </Text>
 
-            <Text>
+            <Text style={{alignSelf:'center', justifyContent:'center', textAlign:'center', fontSize:17, fontWeight:'bold'}}>
               Traffic Updates from LTA
             </Text>
             <RoadIncidents />
-            <Text>
-              Some very nice images :)
-            </Text>
+
             <TravelTime />
             
           </View>
