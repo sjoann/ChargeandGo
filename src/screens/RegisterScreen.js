@@ -17,6 +17,9 @@ export default function RegisterScreen({ navigation }) {
     const [loading, setLoading] = useState()
     const [error, setError] = useState()
 
+    const db = getFirestore()
+    const colRef = collection(db, 'users')
+
     const toLogin = () => {
        navigation.replace('LoginScreen')
     }
@@ -37,28 +40,29 @@ export default function RegisterScreen({ navigation }) {
         }
       }
 
-      /*
-    const usernameTaken = () => {
+      
+    const usernameTaken = async () => {
       try {
-          const list = [];
-          const db = getFirestore()
-          const colRef = collection(db, 'users')
           const q = query(colRef, where("username", "==", name.value));
-          const querySnapshot = getDocs(q);   
-          if (typeof(querySnapshot) == "undefined") {
-            return true
-          } else {
-            //username not taken, now we will then add the name to firestore
-            const docRef = addDoc(colRef, {
-              username: name.value
-            })
+          const querySnapshot = await getDocs(q);  
+          const list = [];
+          querySnapshot.forEach((doc) => {
+                  const {
+                      username
+                    } = doc.data();
+                  list.push({...doc.data(), id: doc.id })
+          })
+          if (list.length == 0) {
             return false
+          } else {
+            //username taken
+            return true
           }
-        } catch (error) {
+      } catch (error) {
           console.log(error);
-        }
+      }
     }
-      */
+      
     const onSignUpPressed = async () => {
       const nameError = nameValidation(name.value)
       const emailError = emailValidation(email.value)
@@ -88,10 +92,11 @@ export default function RegisterScreen({ navigation }) {
         alert("Password doesn't match")
         return
       }
-      /*if (usernameTaken()) {
-        alert("Username taken. Choose another username.")
+      const taken = await usernameTaken()
+      if (taken) {
+        alert("Username taken. Choose another username")
         return
-      }*/
+      }
       setLoading(true)
       const response = await signUpUser({
         name: name.value,
@@ -100,10 +105,14 @@ export default function RegisterScreen({ navigation }) {
       })
       if (response.error) {
         setError(response.error)
-        alert("You have an existing account.")
+        alert(response.error)
         console.log(response.error)
         return
       }
+      //add the name to firestore
+      const docRef = await addDoc(colRef, {
+        username: name.value
+      })
       setLoading(false)
       alert("You may proceed to log in now.")
       navigation.navigate('LoginScreen')

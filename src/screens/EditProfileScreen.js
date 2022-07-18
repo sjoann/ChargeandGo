@@ -4,18 +4,18 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { getStatusBarHeight } from 'react-native-status-bar-height'
 import {updateProfile} from "firebase/auth";
-import { getDocs, getFirestore, collection, query, where, doc, updateDoc} from 'firebase/firestore/lite'
+import { getDocs, getFirestore, collection, query, where, doc, updateDoc, addDoc} from 'firebase/firestore/lite'
 import BackButton from '../components/BackButton';
 
 export default function EditProfileScreen({ navigation }) {
     const [name, setName] = useState(null);
     const [email, setEmail] = useState(null);
     const oldName = firebase.auth().currentUser?.displayName
+    const db = getFirestore()
 
     const updateFirestore = async () => {
         try {
             const list = [];
-            const db = getFirestore()
             const colRef = collection(db, 'posts')
             const q = query(colRef, where("name", "==", oldName));
             const querySnapshot = await getDocs(q);   
@@ -35,6 +35,10 @@ export default function EditProfileScreen({ navigation }) {
             list2.map(id => updateDoc(doc(db, "comments", id), {
                 name: name
             }))
+            const colRef3 = collection(db, 'users')
+            await addDoc(colRef3, {
+                username: name
+              })
         } catch (error) {
             console.log(error)
         }
@@ -64,13 +68,41 @@ export default function EditProfileScreen({ navigation }) {
         }
     }
 
+    const usernameTaken = async () => {
+        try {
+            const colRef = collection(db, 'users')
+            const q = query(colRef, where("username", "==", name));
+            const querySnapshot = await getDocs(q);  
+            const list = [];
+            querySnapshot.forEach((doc) => {
+                    const {
+                        username
+                      } = doc.data();
+                    list.push({...doc.data(), id: doc.id })
+            })
+            if (list.length == 0) {
+              return false
+            } else {
+              //username taken
+              return true
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const updateUser = async () => {
         if (name == null|| email == null) {
             alert("Fields cannot be empty")
             return
         }
         if (name == oldName) {
-            alert("Your new username cannot be identical to your old username")
+            alert("Your new username cannot be same as your old username")
+            return
+        }
+        const taken = await usernameTaken()
+        if (taken) {
+            alert("Username taken. Choose another username")
             return
         }
         const response = await sendEmailWithPassword(email)
@@ -79,7 +111,7 @@ export default function EditProfileScreen({ navigation }) {
         } else {
             setEmail(null)
             await updateName() 
-            alert('Username updated.', 'Check your email to change your password')
+            alert('Username updated. Check your email to change your password')
         }
     }
     
