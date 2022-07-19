@@ -69,7 +69,7 @@ export default function CommentScreen({ route, navigation }) {
              <SafeAreaView style={{flex:1}}>
                  <TouchableOpacity
                  style={styles.back}
-                 onPress={() => navigation.push('ForumScreen')}>
+                 onPress={() => navigation.goBack()}>
                      <Image
                      style={styles.image}
                      source={require('../components/pics/backarrow.png')}
