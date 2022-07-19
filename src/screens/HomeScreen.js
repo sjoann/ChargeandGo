@@ -44,9 +44,10 @@ const styles = StyleSheet.create({
     flex: 1
   },
   header: {
-    fontSize: 30,
+    fontSize: 23,
     fontWeight: "bold",
-    marginBottom: 30
+    marginBottom: 30,
+    marginTop: 20
   },
  
 
