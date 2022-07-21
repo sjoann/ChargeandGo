@@ -14,7 +14,7 @@ export default function ForumScreen({ navigation }) {
     const current = firebase.auth().currentUser?.displayName
     const db = getFirestore()
     const colRef = collection(db, "posts")
-
+    
     useEffect(() => {
         getForum();
     }, []);
@@ -26,6 +26,8 @@ export default function ForumScreen({ navigation }) {
     const getForum = async () => {
     try {
       const list = [];
+      const db = getFirestore()
+      const colRef = collection(db, "posts")
       const q = query(colRef, orderBy('postTime', 'desc'))
       const querySnapshot = await getDocs(q);        
       querySnapshot.forEach((doc) => {
@@ -96,11 +98,14 @@ export default function ForumScreen({ navigation }) {
             })
          } else {
             //dislike
-            
+           
             if (dislikes + 1 > 30) { 
                 //too many dislikes hece we will delete the post 
-                deleteDoc(doc(db, "posts", id));
-                alert("Post is automatically deleted due to the large number of downvotes.")
+                
+                deleteDoc(doc(db, "posts", id)).then(() => {
+                    alert("Post is automatically deleted due to the large number of downvotes.")
+                    navigation.push('ForumScreen')
+                })    
             } else {
                 updateDoc(doc(db, "posts", id), {
                     dislikes: dislikes + 1,
